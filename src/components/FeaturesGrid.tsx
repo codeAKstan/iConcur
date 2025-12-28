@@ -1,6 +1,6 @@
 const FeaturesGrid = () => {
   return (
-    <section className="px-4 py-20 bg-white dark:bg-[#151c2a] border-y border-[#e7ebf3] dark:border-[#2a3441]">
+    <section id="features" className="px-4 py-20 bg-white dark:bg-[#151c2a] border-y border-[#e7ebf3] dark:border-[#2a3441]">
       <div className="max-w-[1000px] mx-auto flex flex-col gap-12">
         <div className="flex flex-col gap-4 text-center items-center">
           <h2 className="text-[#0d121b] dark:text-white text-3xl md:text-4xl font-bold leading-tight tracking-tight max-w-[720px]">

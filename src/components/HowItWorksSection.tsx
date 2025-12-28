@@ -1,6 +1,6 @@
 const HowItWorksSection = () => {
   return (
-    <section className="px-4 py-20 layout-container">
+    <section id="how-it-works" className="px-4 py-20 layout-container">
       <div className="max-w-[960px] mx-auto flex flex-col gap-12">
         <div className="flex flex-col gap-4">
           <h2 className="text-[#0d121b] dark:text-white text-3xl md:text-4xl font-bold leading-tight tracking-tight">
