@@ -1,18 +1,22 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 
 export function DashboardSidebar() {
   return (
     <aside className="flex w-64 flex-col border-r border-slate-200 bg-white dark:bg-surface-dark dark:border-slate-800 transition-all duration-300 ease-in-out shrink-0 h-full">
       {/* Logo Area */}
-      <div className="flex h-20 items-center gap-3 px-6 border-b border-slate-100 dark:border-slate-800/50">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white">
-          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"></path>
-          </svg>
+      <div className="flex h-20 items-center px-6 border-b border-slate-100 dark:border-slate-800/50">
+        <div className="relative h-[40px] w-[160px]">
+          <Image
+            src="/logo.png"
+            alt="iConcur Logo"
+            fill
+            className="object-contain object-left"
+            priority
+          />
         </div>
-        <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">iConcur</span>
       </div>
       {/* Navigation Links */}
       <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-1">
