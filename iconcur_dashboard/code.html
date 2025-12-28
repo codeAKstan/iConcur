@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>iConcur Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1152d4",
+                        "primary-hover": "#0e44b3",
+                        "background-light": "#f8f9fc",
+                        "background-dark": "#101622",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2233",
+                        "text-primary": "#0d121b",
+                        "text-secondary": "#4c669a",
+                        "success": "#22c55e",
+                        "warning": "#f59e0b",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for better look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-primary h-screen flex overflow-hidden font-display antialiased">
+<!-- Sidebar Navigation -->
+<aside class="flex w-64 flex-col border-r border-slate-200 bg-surface-light dark:bg-surface-dark dark:border-slate-800 transition-all duration-300 ease-in-out shrink-0 h-full">
+<!-- Logo Area -->
+<div class="flex h-20 items-center gap-3 px-6 border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined text-2xl">description</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">iConcur</span>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 overflow-y-auto px-4 py-6 space-y-1">
+<a class="group flex items-center gap-3 rounded-lg px-3 py-2.5 bg-primary/10 text-primary font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[24px]">folder_open</span>
+<span>My Contracts</span>
+</a>
+<a class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[24px]">edit_document</span>
+<span>Draft Contract</span>
+</a>
+<a class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[24px]">search_check</span>
+<span>Analyze Contract</span>
+</a>
+<a class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[24px]">ink_pen</span>
+<span>Sign Requests</span>
+<span class="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-orange-100 text-[10px] font-bold text-orange-600">3</span>
+</a>
+<div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800">
+<a class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</nav>
+<!-- User Profile -->
+<div class="border-t border-slate-200 dark:border-slate-800 p-4">
+<div class="flex items-center gap-3 rounded-lg p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+<div class="h-10 w-10 overflow-hidden rounded-full bg-slate-200 relative">
+<!-- Avatar Image -->
+<img alt="Profile picture of John Doe" class="h-full w-full object-cover" data-alt="Close up portrait of a man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoA9FSjw5EhEx1OEU9Q-LgcyuZh8B8wTjSwoEltMokimZvM_XL3UFbWvKrnZ44MhFNZVouLEYBPvp-JwCzyEbUzVF76p6GwvLFgnwU3GK7GrFvz4LEkxpRQMg2UC60MM40PGvQTQo9gER3KK3DJBCOag-RWzDy4z1Mvmb6QWnSWfmCVip0UJgxEdKKwkBsstwrWwYNKCMXhMlqEtqJ9dC9q5b3kQA4tpuxRcNYNmfXbd41TtwS4--G5cLxCOAB0LFEBtUiuwED"/>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-slate-900 dark:text-white">John Doe</span>
+<span class="text-xs text-slate-500 dark:text-slate-400">john@iconcur.com</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Header Area -->
+<header class="h-20 shrink-0 flex items-center justify-between px-8 bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800">
+<!-- Search Bar -->
+<div class="flex-1 max-w-xl">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="block w-full rounded-lg border-none bg-slate-100 dark:bg-slate-800/50 py-2.5 pl-10 pr-3 text-sm text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search contracts, clients, or templates..." type="text"/>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-4 ml-4">
+<button class="relative p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-900"></span>
+</button>
+<button class="hidden md:flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    Create New Contract
+                </button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark p-8">
+<div class="mx-auto max-w-6xl space-y-8">
+<!-- Welcome Section -->
+<div class="flex flex-col gap-1">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white">Welcome back, John</h1>
+<p class="text-slate-500 dark:text-slate-400">Here is an overview of your contract pipeline today.</p>
+</div>
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+<!-- Card 1: Drafts -->
+<div class="rounded-xl bg-white dark:bg-surface-dark p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined">edit_document</span>
+</div>
+<span class="flex items-center text-xs font-medium text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-full">Updated 1h ago</span>
+</div>
+<div class="mt-4">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Drafts in Progress</p>
+<p class="mt-1 text-3xl font-bold text-slate-900 dark:text-white">12</p>
+</div>
+</div>
+<!-- Card 2: Pending -->
+<div class="rounded-xl bg-white dark:bg-surface-dark p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400">
+<span class="material-symbols-outlined">hourglass_top</span>
+</div>
+<span class="flex items-center text-xs font-medium text-orange-600 bg-orange-50 dark:bg-orange-900/20 px-2 py-1 rounded-full">Action Required</span>
+</div>
+<div class="mt-4">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Pending Signatures</p>
+<p class="mt-1 text-3xl font-bold text-slate-900 dark:text-white">5</p>
+</div>
+</div>
+<!-- Card 3: Signed -->
+<div class="rounded-xl bg-white dark:bg-surface-dark p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<span class="flex items-center text-xs font-medium text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-full">+3 this week</span>
+</div>
+<div class="mt-4">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Signed Contracts</p>
+<p class="mt-1 text-3xl font-bold text-slate-900 dark:text-white">24</p>
+</div>
+</div>
+<!-- Card 4: Completed -->
+<div class="rounded-xl bg-white dark:bg-surface-dark p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+</div>
+<div class="mt-4">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Archived &amp; Completed</p>
+<p class="mt-1 text-3xl font-bold text-slate-900 dark:text-white">108</p>
+</div>
+</div>
+</div>
+<!-- Main Section Grid: Recent Activity + Quick Actions -->
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+<!-- Recent Activity Table -->
+<div class="lg:col-span-2 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Recent Activity</h2>
+<a class="text-sm font-medium text-primary hover:text-primary-hover" href="#">View all</a>
+</div>
+<div class="rounded-xl bg-white dark:bg-surface-dark shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm text-slate-500 dark:text-slate-400">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-xs uppercase text-slate-500 dark:text-slate-400">
+<tr>
+<th class="px-6 py-4 font-semibold" scope="col">Contract Name</th>
+<th class="px-6 py-4 font-semibold" scope="col">Recipient</th>
+<th class="px-6 py-4 font-semibold" scope="col">Last Action</th>
+<th class="px-6 py-4 font-semibold text-right" scope="col">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded flex items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</div>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">SaaS Master Agreement</div>
+<div class="text-xs text-slate-400">v2.4 - Legal Dept</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full bg-slate-200 overflow-hidden">
+<img class="h-full w-full object-cover" data-alt="Portrait of recipient" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6ty1tvjVKx5mfCgS8qxcpMmzCmBAQlLQuQOiGce7Mb8KxWvvIN3hHDGxCMeIuDr-4C34rBzDUs5ooS0DiVO1g-z9mygopUtlnHYe3OE9CyWuAB2xaG5o4GS_OBDtGlH8y1pc8H8BTVd2JYbnDeCnavoKo0hKRMI0D9g5TGXtDoi-4ook8taSFVO8rm68fMTEDgqstFEmdTCMsRWE1vpvX0VFfF35ibgNBrVgtnL-6WnFppkQXuwi1uQKnm-WJYEnIX19vFIrE"/>
+</div>
+<span>Acme Corp</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="block text-slate-900 dark:text-white">Sent for signature</span>
+<span class="text-xs">2 hours ago</span>
+</td>
+<td class="px-6 py-4 text-right">
+<span class="inline-flex items-center gap-1 rounded-full bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 ring-1 ring-inset ring-orange-600/20 dark:bg-orange-900/20 dark:text-orange-400">
+<span class="h-1.5 w-1.5 rounded-full bg-orange-600 dark:bg-orange-400"></span>
+                                                    Pending
+                                                </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded flex items-center justify-center bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400">
+<span class="material-symbols-outlined text-[18px]">handshake</span>
+</div>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">NDA - Freelancer</div>
+<div class="text-xs text-slate-400">Standard Template</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full bg-pink-100 flex items-center justify-center text-[10px] font-bold text-pink-600">JS</div>
+<span>Jane Smith</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="block text-slate-900 dark:text-white">Viewed by recipient</span>
+<span class="text-xs">5 hours ago</span>
+</td>
+<td class="px-6 py-4 text-right">
+<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-900/20 dark:text-blue-400">
+<span class="h-1.5 w-1.5 rounded-full bg-blue-600 dark:bg-blue-400"></span>
+                                                    Viewed
+                                                </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded flex items-center justify-center bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">Service Agreement</div>
+<div class="text-xs text-slate-400">Project Alpha</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] font-bold text-indigo-600">GS</div>
+<span>Global Sol.</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="block text-slate-900 dark:text-white">Signed by both parties</span>
+<span class="text-xs">Yesterday</span>
+</td>
+<td class="px-6 py-4 text-right">
+<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-900/20 dark:text-green-400">
+<span class="h-1.5 w-1.5 rounded-full bg-green-600 dark:bg-green-400"></span>
+                                                    Signed
+                                                </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Column: Quick Actions & Help -->
+<div class="flex flex-col gap-6">
+<!-- Quick Actions -->
+<div class="rounded-xl bg-white dark:bg-surface-dark p-6 shadow-sm border border-slate-100 dark:border-slate-800">
+<h3 class="text-base font-bold text-slate-900 dark:text-white mb-4">Quick Actions</h3>
+<div class="space-y-3">
+<button class="w-full group flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all text-left">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">upload_file</span>
+</div>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-primary">Upload for Analysis</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[18px]">chevron_right</span>
+</button>
+<button class="w-full group flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all text-left">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</div>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-primary">Use Template</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Mini Promo / Tips -->
+<div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary to-[#0A369D] p-6 text-white shadow-md">
+<div class="relative z-10 flex flex-col gap-3">
+<div class="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
+<span class="material-symbols-outlined">lightbulb</span>
+</div>
+<h3 class="font-bold text-lg">Pro Tip</h3>
+<p class="text-sm text-blue-100 leading-relaxed">
+                                    Did you know? You can analyze risks in third-party contracts using our AI assistant in seconds.
+                                </p>
+<button class="mt-2 w-fit rounded-lg bg-white px-4 py-2 text-xs font-bold text-primary hover:bg-blue-50 transition-colors">
+                                    Try AI Analysis
+                                </button>
+</div>
+<!-- Decorational circle -->
+<div class="absolute -bottom-8 -right-8 h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
+<div class="absolute -top-8 -right-8 h-24 w-24 rounded-full bg-white/5 blur-xl"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
