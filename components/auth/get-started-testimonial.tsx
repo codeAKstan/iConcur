@@ -42,7 +42,7 @@ export function GetStartedTestimonial() {
               <img
                 alt="Professional woman in business suit smiling"
                 className="object-cover w-full h-full"
-                src="/professional-woman-in-business-suit-smiling.jpg"
+                src="/serah.png"
               />
             </div>
             <div>

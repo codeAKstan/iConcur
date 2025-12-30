@@ -71,7 +71,7 @@ export function GetStartedForm() {
                 First Name
               </label>
               <input
-                className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary text-sm shadow-sm"
+                className="w-full h-11 px-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary text-sm shadow-sm"
                 id="firstName"
                 placeholder="Jane"
                 type="text"
@@ -82,7 +82,7 @@ export function GetStartedForm() {
                 Last Name
               </label>
               <input
-                className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary text-sm shadow-sm"
+                className="w-full h-11 px-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary text-sm shadow-sm"
                 id="lastName"
                 placeholder="Doe"
                 type="text"
@@ -94,7 +94,7 @@ export function GetStartedForm() {
               Work Email
             </label>
             <input
-              className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary text-sm shadow-sm"
+              className="w-full h-11 px-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary text-sm shadow-sm"
               id="email"
               placeholder="jane@company.com"
               type="email"
@@ -105,7 +105,7 @@ export function GetStartedForm() {
               Password
             </label>
             <input
-              className="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary text-sm shadow-sm"
+              className="w-full h-11 px-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary text-sm shadow-sm"
               id="password"
               placeholder="••••••••"
               type="password"
