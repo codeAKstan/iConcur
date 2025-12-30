@@ -1,22 +1,24 @@
+import { FileText, PenLine, BrainCircuit, ShieldCheck } from "lucide-react"
+
 export function FeaturesGrid() {
   const features = [
     {
-      icon: "description",
+      icon: FileText,
       title: "Smart Templates",
       description: "Start with pre-vetted legal templates designed for speed and protection.",
     },
     {
-      icon: "draw",
+      icon: PenLine,
       title: "Digital Signatures",
       description: "Legally binding e-signatures compliant with global standards (eIDAS, ESIGN).",
     },
     {
-      icon: "psychology",
+      icon: BrainCircuit,
       title: "AI Analysis",
       description: "Automatically detect risks, vague clauses, and unfavorable terms instantly.",
     },
     {
-      icon: "verified_user",
+      icon: ShieldCheck,
       title: "Audit-Ready",
       description: "Full digital audit trails for every document modification and signature.",
     },
@@ -41,10 +43,7 @@ export function FeaturesGrid() {
               className="group flex flex-col gap-4 rounded-xl border border-[#cfd7e7] dark:border-gray-700 bg-white dark:bg-[#1a2230] p-6 transition-all hover:shadow-lg hover:border-primary/50"
             >
               <div className="size-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-primary transition-colors group-hover:bg-primary group-hover:text-white">
-                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-                  {/* Icon variations would be rendered based on feature.icon */}
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"></path>
-                </svg>
+                <feature.icon className="w-7 h-7" />
               </div>
               <div className="flex flex-col gap-2">
                 <h3 className="text-[#0d121b] dark:text-white text-lg font-bold leading-tight">{feature.title}</h3>
