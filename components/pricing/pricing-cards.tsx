@@ -58,7 +58,7 @@ export function PricingCards() {
   const [isYearly, setIsYearly] = useState(false)
 
   return (
-    <section className="flex flex-col justify-center py-12 lg:py-20 px-4 lg:px-8">
+    <section className="flex flex-col justify-center pt-4 lg:pt-8 pb-12 lg:pb-20 px-4 lg:px-8">
       {/* Toggle */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}

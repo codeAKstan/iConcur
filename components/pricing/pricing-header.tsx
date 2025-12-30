@@ -1,6 +1,6 @@
 export function PricingHeader() {
   return (
-    <section className="layout-container flex flex-col items-center text-center py-12 lg:py-20 px-4">
+    <section className="layout-container flex flex-col items-center text-center pt-12 lg:pt-20 pb-4 lg:pb-8 px-4">
       <h1 className="text-[#0d121b] dark:text-white text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-[-0.033em] mb-4 text-balance">
         Simple pricing for <span className="text-primary">powerful contracts</span>
       </h1>
