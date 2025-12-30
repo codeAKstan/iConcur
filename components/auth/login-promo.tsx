@@ -16,15 +16,15 @@ export function LoginPromo() {
           </svg>
         </div>
         <blockquote className="text-2xl font-bold leading-snug mb-4">
-          "iConcur has revolutionized how we handle legal agreements. The automated analysis saves us hours every week."
+          "iConcur has revolutionized how we handle  agreements. The automated analysis saves us hours every week."
         </blockquote>
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold">
-            JD
+            EO
           </div>
           <div>
-            <p className="font-bold text-sm">Jane Doe</p>
-            <p className="text-white/70 text-xs">General Counsel, TechFlow Inc.</p>
+            <p className="font-bold text-sm">Emmanuel Okoye</p>
+            <p className="text-white/70 text-xs">Co-founder, Chainmove ltd.</p>
           </div>
         </div>
       </div>
