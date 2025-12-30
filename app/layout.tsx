@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "iConcur - Intelligent Contract Management",
   description:
     "Create, understand, and sign agreements in minutes. Draft simple contracts, analyze risks with AI, and securely sign with confidence.",
-  generator: "v0.app",
+  // generator: "v0.app",
   viewport: {
     width: "device-width",
     initialScale: 1,

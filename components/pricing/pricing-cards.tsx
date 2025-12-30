@@ -65,7 +65,7 @@ export function PricingCards() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="flex items-center justify-center gap-4 mb-12"
+        className="flex items-center justify-center gap-4 mb-12 w-fit mx-auto bg-white dark:bg-slate-900 shadow-md rounded-full px-6 py-4 border border-slate-200 dark:border-slate-800"
       >
         <span className={`text-sm font-medium ${!isYearly ? "text-slate-900 dark:text-white" : "text-slate-500"}`}>
           Monthly
