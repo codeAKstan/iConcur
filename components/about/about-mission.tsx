@@ -1,9 +1,19 @@
 import { BadgeCheck } from "lucide-react"
+import Image from "next/image"
 
 export function AboutMission() {
   return (
     <section className="px-4 py-16">
-      <div className="max-w-6xl mx-auto bg-[#0f1c35] dark:bg-[#0f1c35] text-white rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+      <div className="max-w-6xl mx-auto text-white rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+        <Image
+          src="/mission.png"
+          alt="Our mission background"
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 1200px"
+          priority
+        />
+        <div className="absolute inset-0 bg-[#0f1c35]/70" />
         <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
         <div className="relative z-10 flex items-start gap-4">
