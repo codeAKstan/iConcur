@@ -28,9 +28,6 @@ export function Footer() {
             <Link href="/pricing" className="text-blue-200 hover:text-white text-sm transition-colors">
               Pricing
             </Link>
-            <a href="#" className="text-blue-200 hover:text-white text-sm transition-colors">
-              Security
-            </a>
           </div>
           <div className="flex flex-col gap-4">
             <h4 className="font-bold text-blue-100">Company</h4>
@@ -39,9 +36,6 @@ export function Footer() {
             </a>
             <a href="#" className="text-blue-200 hover:text-white text-sm transition-colors">
               Contact
-            </a>
-            <a href="#" className="text-blue-200 hover:text-white text-sm transition-colors">
-              Careers
             </a>
           </div>
           <div className="flex flex-col gap-4">

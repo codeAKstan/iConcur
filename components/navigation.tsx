@@ -40,6 +40,12 @@ export function Navigation() {
           >
             Pricing
           </Link>
+          <Link
+            href="/about"
+            className="text-[#0d121b] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+          >
+            About
+          </Link>
         </div>
         <div className="flex gap-2">
           <button
