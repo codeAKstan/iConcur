@@ -44,7 +44,7 @@ export function LoginForm() {
               <label className="text-sm font-semibold text-slate-900 dark:text-white" htmlFor="password">
                 Password
               </label>
-              <a className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors" href="#">
+              <a className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors" href="/forgot-password">
                 Forgot Password?
               </a>
             </div>
