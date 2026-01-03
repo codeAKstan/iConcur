@@ -1,9 +1,54 @@
 "use client"
 
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 
 export function GetStartedForm() {
   const router = useRouter()
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError("")
+
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.message || "Something went wrong")
+      }
+
+      // Success
+      router.push("/dashboard")
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="flex flex-col lg:order-2 order-1">
@@ -19,6 +64,13 @@ export function GetStartedForm() {
           </div>
         </div>
         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Create your account</h3>
+        
+        {error && (
+          <div className="mb-4 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm">
+            {error}
+          </div>
+        )}
+
         {/* Social Sign Up */}
         <div className="grid grid-cols-2 gap-4 mb-6">
           <button className="flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-surface-dark hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
@@ -64,7 +116,7 @@ export function GetStartedForm() {
           </div>
         </div>
         {/* Form Fields */}
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="flex gap-4">
             <div className="flex-1">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" htmlFor="firstName">
@@ -75,6 +127,9 @@ export function GetStartedForm() {
                 id="firstName"
                 placeholder="Jane"
                 type="text"
+                value={formData.firstName}
+                onChange={handleChange}
+                required
               />
             </div>
             <div className="flex-1">
@@ -86,6 +141,9 @@ export function GetStartedForm() {
                 id="lastName"
                 placeholder="Doe"
                 type="text"
+                value={formData.lastName}
+                onChange={handleChange}
+                required
               />
             </div>
           </div>
@@ -98,6 +156,9 @@ export function GetStartedForm() {
               id="email"
               placeholder="jane@company.com"
               type="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
             />
           </div>
           <div>
@@ -109,18 +170,24 @@ export function GetStartedForm() {
               id="password"
               placeholder="••••••••"
               type="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              minLength={8}
             />
             <p className="mt-1 text-xs text-gray-500">Must be at least 8 characters.</p>
           </div>
           <button
-            className="w-full flex justify-center items-center py-3 px-4 rounded-lg shadow-sm text-sm font-bold text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mt-4 transition-all"
-            onClick={() => router.push("/dashboard")}
-            type="button"
+            className="w-full flex justify-center items-center py-3 px-4 rounded-lg shadow-sm text-sm font-bold text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mt-4 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+            type="submit"
+            disabled={loading}
           >
-            Create Account
-            <svg className="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"></path>
-            </svg>
+            {loading ? "Creating Account..." : "Create Account"}
+            {!loading && (
+              <svg className="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"></path>
+              </svg>
+            )}
           </button>
         </form>
         <p className="mt-6 text-center text-xs text-gray-500 dark:text-gray-400">
