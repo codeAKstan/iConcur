@@ -1,6 +1,53 @@
 "use client"
 
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+
 export function LoginForm() {
+  const router = useRouter()
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError("")
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.message || "Invalid credentials")
+      }
+
+      // Success
+      router.push("/dashboard")
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="flex-1 p-8 sm:p-12 lg:p-16 flex flex-col justify-center">
       <div className="max-w-[400px] mx-auto w-full">
@@ -10,7 +57,14 @@ export function LoginForm() {
             Please enter your details to access your contracts.
           </p>
         </div>
-        <form className="flex flex-col gap-5">
+
+        {error && (
+          <div className="mb-4 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm">
+            {error}
+          </div>
+        )}
+
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           {/* Email Field */}
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold text-slate-900 dark:text-white" htmlFor="email">
@@ -22,6 +76,9 @@ export function LoginForm() {
                 id="email"
                 placeholder="name@company.com"
                 type="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
               />
               <svg
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none"
@@ -54,6 +111,9 @@ export function LoginForm() {
                 id="password"
                 placeholder="Enter your password"
                 type="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
               />
               <button
                 className="absolute right-0 top-0 h-full px-4 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors focus:outline-none"
@@ -67,13 +127,20 @@ export function LoginForm() {
           </div>
           {/* Login Button */}
           <button
-            className="mt-2 w-full h-12 bg-primary hover:bg-primary/90 text-white font-bold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform active:scale-[0.98] flex items-center justify-center gap-2"
-            type="button"
+            className="mt-2 w-full h-12 bg-primary hover:bg-primary/90 text-white font-bold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            type="submit"
+            disabled={loading}
           >
-            <span>Log In</span>
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M13 3H7v10h6V3zm0 16H7v-4h6v4zm4-8h-2V7h-2v4h2v2h2v-2z"></path>
-            </svg>
+            {loading ? (
+              <span>Logging In...</span>
+            ) : (
+              <>
+                <span>Log In</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M13 3H7v10h6V3zm0 16H7v-4h6v4zm4-8h-2V7h-2v4h2v2h2v-2z"></path>
+                </svg>
+              </>
+            )}
           </button>
         </form>
         {/* Social Login Divider */}
