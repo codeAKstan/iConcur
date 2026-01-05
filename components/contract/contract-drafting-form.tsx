@@ -81,15 +81,19 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
           <div className="space-y-4">
             <div>
               <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
-                Lender (Party A)
+                {formData.template === "NDA" ? "Disclosing Party (Party A)" : "Lender (Party A)"}
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                  {formData.template === "NDA" ? (
+                    <Building2 className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                  ) : (
+                    <User className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                  )}
                 </div>
                 <input
                   className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-gray-50 dark:bg-gray-800 text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm font-medium"
-                  placeholder="Full Legal Name"
+                  placeholder={formData.template === "NDA" ? "Company Name" : "Full Legal Name"}
                   type="text"
                   value={formData.lenderName}
                   onChange={(e) => onChange("lenderName", e.target.value)}
@@ -98,15 +102,15 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
             </div>
             <div>
               <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
-                Borrower (Party B)
+                {formData.template === "NDA" ? "Receiving Party (Party B)" : "Borrower (Party B)"}
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Building2 className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                  <User className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
                 </div>
                 <input
                   className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm font-medium"
-                  placeholder="Full Legal Name"
+                  placeholder={formData.template === "NDA" ? "Recipient Name / Company" : "Full Legal Name"}
                   type="text"
                   value={formData.borrowerName}
                   onChange={(e) => onChange("borrowerName", e.target.value)}
@@ -119,44 +123,122 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
         {/* Section 3: Terms */}
         <div className="space-y-5">
           <h3 className="text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-            <div className="w-1 h-4 bg-primary rounded-full"></div> 3. Terms & Conditions
+            <div className="w-1 h-4 bg-primary rounded-full"></div> {formData.template === "NDA" ? "3. Agreement Terms" : "3. Terms & Conditions"}
           </h3>
           <div className="grid grid-cols-2 gap-5">
-            <div className="col-span-1">
-              <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
-                Loan Amount
-              </label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-400 font-bold group-focus-within:text-primary transition-colors">$</span>
+            {formData.template === "NDA" ? (
+              <>
+                <div className="col-span-2">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Relationship Purpose
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Briefcase className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                    </div>
+                    <input
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                      placeholder="e.g. Evaluation of potential business partnership"
+                      type="text"
+                      value={formData.relationshipPurpose}
+                      onChange={(e) => onChange("relationshipPurpose", e.target.value)}
+                    />
+                  </div>
                 </div>
-                <input
-                  className="block w-full pl-8 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
-                  placeholder="0.00"
-                  type="text"
-                  value={formData.loanAmount}
-                  onChange={(e) => onChange("loanAmount", e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="col-span-1">
-              <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
-                Interest Rate (%)
-              </label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-400 font-bold group-focus-within:text-primary transition-colors">%</span>
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Confidentiality Term
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <select
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none shadow-sm cursor-pointer font-medium"
+                      value={formData.confidentialityTerm}
+                      onChange={(e) => onChange("confidentialityTerm", e.target.value)}
+                    >
+                      <option value="1 Year">1 Year</option>
+                      <option value="2 Years">2 Years</option>
+                      <option value="3 Years">3 Years</option>
+                      <option value="5 Years">5 Years</option>
+                      <option value="Indefinite">Indefinite</option>
+                    </select>
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
-                <input
-                  className="block w-full pl-8 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
-                  placeholder="5.0"
-                  step="0.1"
-                  type="number"
-                  value={formData.interestRate}
-                  onChange={(e) => onChange("interestRate", e.target.value)}
-                />
-              </div>
-            </div>
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Return of Information
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                      </svg>
+                    </div>
+                    <select
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none shadow-sm cursor-pointer font-medium"
+                      value={formData.returnInformation}
+                      onChange={(e) => onChange("returnInformation", e.target.value)}
+                    >
+                      <option value="Destroy">Destroy</option>
+                      <option value="Return">Return</option>
+                      <option value="Destroy or Return">Destroy or Return</option>
+                    </select>
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Loan Amount
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span className="text-gray-400 font-bold group-focus-within:text-primary transition-colors">$</span>
+                    </div>
+                    <input
+                      className="block w-full pl-8 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                      placeholder="0.00"
+                      type="text"
+                      value={formData.loanAmount}
+                      onChange={(e) => onChange("loanAmount", e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Interest Rate (%)
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span className="text-gray-400 font-bold group-focus-within:text-primary transition-colors">%</span>
+                    </div>
+                    <input
+                      className="block w-full pl-8 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                      placeholder="5.0"
+                      step="0.1"
+                      type="number"
+                      value={formData.interestRate}
+                      onChange={(e) => onChange("interestRate", e.target.value)}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
             <div className="col-span-2">
               <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
                 Effective Date

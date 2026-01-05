@@ -7,13 +7,17 @@ import { ContractPreview } from "@/components/contract/contract-preview"
 
 export default function ContractDraftingPage() {
   const [formData, setFormData] = useState({
-    template: "Loan Agreement",
-    lenderName: "Acme Financial Corp.",
+    template: "NDA",
+    lenderName: "TechStart Inc.",
     borrowerName: "",
+    relationshipPurpose: "Evaluation of potential business partnership",
+    confidentialityTerm: "3 Years",
+    returnInformation: "Destroy or Return",
+    effectiveDate: "",
+    jurisdiction: "California",
+    // Loan specific fields (kept for switching templates)
     loanAmount: "",
     interestRate: "5.0",
-    effectiveDate: "2023-10-24",
-    jurisdiction: "",
   })
 
   const handleChange = (field: string, value: string) => {

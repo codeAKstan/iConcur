@@ -74,75 +74,118 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
         <div className="space-y-8 font-serif leading-relaxed text-[15px]">
           <div className="text-center space-y-4 mb-12">
             <h1 className="text-2xl font-bold uppercase tracking-widest border-b-2 border-black pb-4 inline-block">
-              {formData.template || "LOAN AGREEMENT"}
+              {formData.template === "NDA" ? "NON-DISCLOSURE AGREEMENT" : (formData.template || "LOAN AGREEMENT")}
             </h1>
-            <p className="text-sm font-bold text-gray-500">Contract #LN-2023-8492</p>
+            <p className="text-sm font-bold text-gray-500">Contract #{formData.template === "NDA" ? "NDA" : "LN"}-2023-8492</p>
           </div>
 
           <p className="text-justify leading-loose">
-            This {formData.template} (the "Agreement") is entered into as of 
+            This {formData.template === "NDA" ? "Non-Disclosure Agreement" : formData.template} (the "Agreement") is entered into as of 
             <Highlight value={formatDate(formData.effectiveDate)} placeholder="Select Date" />
             (the "Effective Date"), by and between:
           </p>
 
           <div className="pl-8 space-y-4 my-8">
             <div className="flex gap-2 items-baseline">
-              <span className="font-bold min-w-[100px] text-gray-900">Lender:</span>
+              <span className="font-bold min-w-[120px] text-gray-900">
+                {formData.template === "NDA" ? "Disclosing Party:" : "Lender:"}
+              </span>
               <div className="flex-1">
-                <Highlight value={formData.lenderName} placeholder="Enter Lender Name..." />
+                <Highlight value={formData.lenderName} placeholder={formData.template === "NDA" ? "Enter Disclosing Party..." : "Enter Lender Name..."} />
               </div>
             </div>
             <div className="flex gap-2 items-baseline">
-              <span className="font-bold min-w-[100px] text-gray-900">Borrower:</span>
+              <span className="font-bold min-w-[120px] text-gray-900">
+                {formData.template === "NDA" ? "Receiving Party:" : "Borrower:"}
+              </span>
               <div className="flex-1">
-                <Highlight value={formData.borrowerName} placeholder="Enter Borrower Name..." />
+                <Highlight value={formData.borrowerName} placeholder={formData.template === "NDA" ? "Enter Recipient Name..." : "Enter Borrower Name..."} />
               </div>
             </div>
           </div>
 
-          <div className="space-y-6 mt-12">
-            <div>
-              <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">1. Loan Amount & Interest</h3>
-              <p className="mb-4 leading-loose text-justify">
-                The Lender agrees to loan the Borrower the principal sum of 
-                <Highlight value={formData.loanAmount ? `$${formData.loanAmount}` : ""} placeholder="Enter Amount" />
-                (the "Loan"). The unpaid principal shall bear interest at the rate of 
-                <Highlight value={formData.interestRate ? `${formData.interestRate}%` : ""} placeholder="0.0%" type="number" />
-                per annum.
-              </p>
-            </div>
+          {formData.template === "NDA" ? (
+            <div className="space-y-6 mt-12">
+              <div>
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">1. Purpose</h3>
+                <p className="mb-4 leading-loose text-justify">
+                  The Receiving Party understands that the Disclosing Party may disclose certain Confidential Information for the purpose of 
+                  <Highlight value={formData.relationshipPurpose} placeholder="Evaluation of potential business partnership" />
+                  (the "Purpose").
+                </p>
+              </div>
 
-            <div>
-              <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">2. Payment Schedule</h3>
-              <p className="mb-4 leading-loose text-justify">
-                Borrower agrees to repay the Loan in monthly installments beginning on 
-                <Highlight value={formatDate(formData.effectiveDate)} placeholder="[Date]" />
-                and continuing until the Principal and Interest are paid in full.
-              </p>
-            </div>
+              <div>
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">2. Confidential Information</h3>
+                <p className="mb-4 leading-loose text-justify">
+                  "Confidential Information" means all information, whether written or oral, and in any form (including, without limitation, engineering documents, research and development, business plans, and financial information) furnished to the Receiving Party by the Disclosing Party.
+                </p>
+              </div>
 
-            <div>
-              <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">3. Governing Law</h3>
-              <p className="mb-4 leading-loose text-justify">
-                This Agreement shall be governed by and construed in accordance with the laws of the State of 
-                <Highlight value={formData.jurisdiction} placeholder="Select Jurisdiction..." />.
-              </p>
+              <div>
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">3. Term</h3>
+                <p className="mb-4 leading-loose text-justify">
+                  The obligations of this Agreement shall remain in effect for a period of 
+                  <Highlight value={formData.confidentialityTerm} placeholder="3 Years" />
+                  from the Effective Date. Upon termination, the Receiving Party shall 
+                  <Highlight value={formData.returnInformation} placeholder="Destroy or Return" />
+                  all Confidential Information.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">4. Governing Law</h3>
+                <p className="mb-4 leading-loose text-justify">
+                  This Agreement shall be governed by and construed in accordance with the laws of the State of 
+                  <Highlight value={formData.jurisdiction} placeholder="Select Jurisdiction..." />.
+                </p>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="space-y-6 mt-12">
+              <div>
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">1. Loan Amount & Interest</h3>
+                <p className="mb-4 leading-loose text-justify">
+                  The Lender agrees to loan the Borrower the principal sum of 
+                  <Highlight value={formData.loanAmount ? `$${formData.loanAmount}` : ""} placeholder="Enter Amount" />
+                  (the "Loan"). The unpaid principal shall bear interest at the rate of 
+                  <Highlight value={formData.interestRate ? `${formData.interestRate}%` : ""} placeholder="0.0%" type="number" />
+                  per annum.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">2. Payment Schedule</h3>
+                <p className="mb-4 leading-loose text-justify">
+                  Borrower agrees to repay the Loan in monthly installments beginning on 
+                  <Highlight value={formatDate(formData.effectiveDate)} placeholder="[Date]" />
+                  and continuing until the Principal and Interest are paid in full.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">3. Governing Law</h3>
+                <p className="mb-4 leading-loose text-justify">
+                  This Agreement shall be governed by and construed in accordance with the laws of the State of 
+                  <Highlight value={formData.jurisdiction} placeholder="Select Jurisdiction..." />.
+                </p>
+              </div>
+            </div>
+          )}
           
           <div className="mt-20 grid grid-cols-2 gap-12">
             <div className="space-y-8">
               <div className="border-b border-black w-full"></div>
               <div>
-                <p className="font-bold text-sm uppercase">Lender Signature</p>
-                <p className="text-xs text-gray-500 mt-1">{formData.lenderName || "[Lender Name]"}</p>
+                <p className="font-bold text-sm uppercase">{formData.template === "NDA" ? "Disclosing Party Signature" : "Lender Signature"}</p>
+                <p className="text-xs text-gray-500 mt-1">{formData.lenderName || (formData.template === "NDA" ? "[Company Name]" : "[Lender Name]")}</p>
               </div>
             </div>
             <div className="space-y-8">
               <div className="border-b border-black w-full"></div>
               <div>
-                <p className="font-bold text-sm uppercase">Borrower Signature</p>
-                <p className="text-xs text-gray-500 mt-1">{formData.borrowerName || "[Borrower Name]"}</p>
+                <p className="font-bold text-sm uppercase">{formData.template === "NDA" ? "Receiving Party Signature" : "Borrower Signature"}</p>
+                <p className="text-xs text-gray-500 mt-1">{formData.borrowerName || (formData.template === "NDA" ? "[Recipient Name]" : "[Borrower Name]")}</p>
               </div>
             </div>
           </div>
