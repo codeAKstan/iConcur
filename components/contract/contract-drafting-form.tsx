@@ -81,11 +81,13 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
           <div className="space-y-4">
             <div>
               <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
-                {formData.template === "NDA" ? "Disclosing Party (Party A)" : "Lender (Party A)"}
+                {formData.template === "NDA" ? "Disclosing Party (Party A)" : formData.template === "Service Contract" ? "Client (Party A)" : "Lender (Party A)"}
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   {formData.template === "NDA" ? (
+                    <Building2 className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                  ) : formData.template === "Service Contract" ? (
                     <Building2 className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
                   ) : (
                     <User className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
@@ -102,7 +104,7 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
             </div>
             <div>
               <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
-                {formData.template === "NDA" ? "Receiving Party (Party B)" : "Borrower (Party B)"}
+                {formData.template === "NDA" ? "Receiving Party (Party B)" : formData.template === "Service Contract" ? "Service Provider (Party B)" : "Borrower (Party B)"}
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -110,7 +112,7 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                 </div>
                 <input
                   className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm font-medium"
-                  placeholder={formData.template === "NDA" ? "Recipient Name / Company" : "Full Legal Name"}
+                  placeholder={formData.template === "NDA" ? "Recipient Name / Company" : "Full Legal Name / Company"}
                   type="text"
                   value={formData.borrowerName}
                   onChange={(e) => onChange("borrowerName", e.target.value)}
@@ -123,7 +125,7 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
         {/* Section 3: Terms */}
         <div className="space-y-5">
           <h3 className="text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-            <div className="w-1 h-4 bg-primary rounded-full"></div> {formData.template === "NDA" ? "3. Agreement Terms" : "3. Terms & Conditions"}
+            <div className="w-1 h-4 bg-primary rounded-full"></div> {formData.template === "NDA" || formData.template === "Service Contract" ? "3. Agreement Terms" : "3. Terms & Conditions"}
           </h3>
           <div className="grid grid-cols-2 gap-5">
             {formData.template === "NDA" ? (
@@ -200,6 +202,84 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                   </div>
                 </div>
               </>
+            ) : formData.template === "Service Contract" ? (
+              <>
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Payment Terms
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span className="text-gray-400 font-bold group-focus-within:text-primary transition-colors text-xs">
+                        <Briefcase className="h-4 w-4" />
+                      </span>
+                    </div>
+                    <select
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none shadow-sm cursor-pointer font-medium"
+                      value={formData.paymentTerms}
+                      onChange={(e) => onChange("paymentTerms", e.target.value)}
+                    >
+                      <option value="Fixed Price">Fixed Price</option>
+                      <option value="Hourly Rate">Hourly Rate</option>
+                      <option value="Milestone Based">Milestone Based</option>
+                    </select>
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Amount / Rate
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span className="text-gray-400 font-bold group-focus-within:text-primary transition-colors">$</span>
+                    </div>
+                    <input
+                      className="block w-full pl-8 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                      placeholder="0.00"
+                      type="text"
+                      value={formData.amountRate}
+                      onChange={(e) => onChange("amountRate", e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Start Date
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Calendar className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                    </div>
+                    <input
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                      type="date"
+                      value={formData.startDate}
+                      onChange={(e) => onChange("startDate", e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Completion Date
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Calendar className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                    </div>
+                    <input
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                      type="date"
+                      value={formData.completionDate}
+                      onChange={(e) => onChange("completionDate", e.target.value)}
+                    />
+                  </div>
+                </div>
+              </>
             ) : (
               <>
                 <div className="col-span-1">
@@ -237,24 +317,42 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                     />
                   </div>
                 </div>
+                <div className="col-span-2">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Effective Date
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Calendar className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                    </div>
+                    <input
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                      type="date"
+                      value={formData.effectiveDate}
+                      onChange={(e) => onChange("effectiveDate", e.target.value)}
+                    />
+                  </div>
+                </div>
               </>
             )}
-            <div className="col-span-2">
-              <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
-                Effective Date
-              </label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Calendar className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+            {formData.template !== "Service Contract" && (
+              <div className="col-span-2">
+                <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                  Effective Date
+                </label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Calendar className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                  </div>
+                  <input
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                    type="date"
+                    value={formData.effectiveDate}
+                    onChange={(e) => onChange("effectiveDate", e.target.value)}
+                  />
                 </div>
-                <input
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
-                  type="date"
-                  value={formData.effectiveDate}
-                  onChange={(e) => onChange("effectiveDate", e.target.value)}
-                />
               </div>
-            </div>
+            )}
             <div className="col-span-2">
               <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
                 Jurisdiction / State
@@ -283,6 +381,27 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
             </div>
           </div>
         </div>
+
+        {formData.template === "Service Contract" && (
+          <div className="space-y-5">
+            <h3 className="text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+              <div className="w-1 h-4 bg-primary rounded-full"></div> 4. Scope & Deliverables
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                  Scope of Work
+                </label>
+                <textarea
+                  className="block w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm font-medium min-h-[100px]"
+                  placeholder="Detailed description of services to be provided..."
+                  value={formData.scopeOfWork}
+                  onChange={(e) => onChange("scopeOfWork", e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Section 4: AI Actions */}
         <div className="p-5 rounded-2xl bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 border border-indigo-100 dark:border-indigo-800/50 relative overflow-hidden group">

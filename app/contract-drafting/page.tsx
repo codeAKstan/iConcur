@@ -7,14 +7,20 @@ import { ContractPreview } from "@/components/contract/contract-preview"
 
 export default function ContractDraftingPage() {
   const [formData, setFormData] = useState({
-    template: "NDA",
+    template: "Service Contract",
     lenderName: "TechStart Inc.",
     borrowerName: "",
     relationshipPurpose: "Evaluation of potential business partnership",
     confidentialityTerm: "3 Years",
     returnInformation: "Destroy or Return",
-    effectiveDate: "",
+    effectiveDate: "2023-10-24",
     jurisdiction: "California",
+    // Service specific fields
+    paymentTerms: "Fixed Price",
+    amountRate: "",
+    startDate: "",
+    completionDate: "",
+    scopeOfWork: "",
     // Loan specific fields (kept for switching templates)
     loanAmount: "",
     interestRate: "5.0",
