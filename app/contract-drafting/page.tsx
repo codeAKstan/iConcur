@@ -7,8 +7,8 @@ import { ContractPreview } from "@/components/contract/contract-preview"
 
 export default function ContractDraftingPage() {
   const [formData, setFormData] = useState({
-    template: "Service Contract",
-    lenderName: "TechStart Inc.",
+    template: "Business Agreement",
+    lenderName: "Alpha Corp",
     borrowerName: "",
     relationshipPurpose: "Evaluation of potential business partnership",
     confidentialityTerm: "3 Years",
@@ -21,6 +21,12 @@ export default function ContractDraftingPage() {
     startDate: "",
     completionDate: "",
     scopeOfWork: "",
+    // Business Agreement specific fields
+    agreementType: "General Business",
+    disputeResolution: "Arbitration",
+    termDuration: "",
+    agreementPurpose: "",
+    obligations: "",
     // Loan specific fields (kept for switching templates)
     loanAmount: "",
     interestRate: "5.0",

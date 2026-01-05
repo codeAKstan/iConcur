@@ -1,6 +1,6 @@
 "use client"
 
-import { Landmark, Shield, Briefcase, User, Building2, Calendar, MapPin, Sparkles, Save, Send } from "lucide-react"
+import { Landmark, Shield, Briefcase, User, Building2, Calendar, MapPin, Sparkles, Save, Send, Handshake, Scale, Clock } from "lucide-react"
 
 interface ContractDraftingFormProps {
   formData: any
@@ -68,6 +68,17 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
             <Briefcase className="w-4 h-4" />
             <span className="text-sm font-bold whitespace-nowrap">Service Contract</span>
           </button>
+          <button 
+            onClick={() => onChange("template", "Business Agreement")}
+            className={`flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all ${
+              formData.template === "Business Agreement" 
+                ? "bg-blue-50 dark:bg-blue-900/20 border-primary text-primary shadow-sm ring-1 ring-primary" 
+                : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-slate-600 dark:text-slate-300 hover:border-gray-300 dark:hover:border-gray-600"
+            }`}
+          >
+            <Handshake className="w-4 h-4" />
+            <span className="text-sm font-bold whitespace-nowrap">Business Agreement</span>
+          </button>
         </div>
       </div>
 
@@ -81,13 +92,14 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
           <div className="space-y-4">
             <div>
               <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
-                {formData.template === "NDA" ? "Disclosing Party (Party A)" : formData.template === "Service Contract" ? "Client (Party A)" : "Lender (Party A)"}
+                {formData.template === "NDA" ? "Disclosing Party (Party A)" : 
+                 formData.template === "Service Contract" ? "Client (Party A)" : 
+                 formData.template === "Business Agreement" ? "First Party (Party A)" : 
+                 "Lender (Party A)"}
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  {formData.template === "NDA" ? (
-                    <Building2 className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
-                  ) : formData.template === "Service Contract" ? (
+                  {formData.template === "NDA" || formData.template === "Service Contract" || formData.template === "Business Agreement" ? (
                     <Building2 className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
                   ) : (
                     <User className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
@@ -95,7 +107,11 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                 </div>
                 <input
                   className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-gray-50 dark:bg-gray-800 text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm font-medium"
-                  placeholder={formData.template === "NDA" ? "Company Name" : "Full Legal Name"}
+                  placeholder={
+                    formData.template === "NDA" ? "Company Name" : 
+                    formData.template === "Business Agreement" ? "Alpha Corp" : 
+                    "Full Legal Name"
+                  }
                   type="text"
                   value={formData.lenderName}
                   onChange={(e) => onChange("lenderName", e.target.value)}
@@ -104,7 +120,10 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
             </div>
             <div>
               <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
-                {formData.template === "NDA" ? "Receiving Party (Party B)" : formData.template === "Service Contract" ? "Service Provider (Party B)" : "Borrower (Party B)"}
+                {formData.template === "NDA" ? "Receiving Party (Party B)" : 
+                 formData.template === "Service Contract" ? "Service Provider (Party B)" : 
+                 formData.template === "Business Agreement" ? "Second Party (Party B)" : 
+                 "Borrower (Party B)"}
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -112,7 +131,11 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                 </div>
                 <input
                   className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm font-medium"
-                  placeholder={formData.template === "NDA" ? "Recipient Name / Company" : "Full Legal Name / Company"}
+                  placeholder={
+                    formData.template === "NDA" ? "Recipient Name / Company" : 
+                    formData.template === "Business Agreement" ? "Full Legal Name / Company" : 
+                    "Full Legal Name / Company"
+                  }
                   type="text"
                   value={formData.borrowerName}
                   onChange={(e) => onChange("borrowerName", e.target.value)}
@@ -125,7 +148,7 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
         {/* Section 3: Terms */}
         <div className="space-y-5">
           <h3 className="text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-            <div className="w-1 h-4 bg-primary rounded-full"></div> {formData.template === "NDA" || formData.template === "Service Contract" ? "3. Agreement Terms" : "3. Terms & Conditions"}
+            <div className="w-1 h-4 bg-primary rounded-full"></div> {formData.template === "NDA" || formData.template === "Service Contract" || formData.template === "Business Agreement" ? "3. Agreement Terms" : "3. Terms & Conditions"}
           </h3>
           <div className="grid grid-cols-2 gap-5">
             {formData.template === "NDA" ? (
@@ -280,6 +303,75 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                   </div>
                 </div>
               </>
+            ) : formData.template === "Business Agreement" ? (
+              <>
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Agreement Type
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Briefcase className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                    </div>
+                    <select
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none shadow-sm cursor-pointer font-medium"
+                      value={formData.agreementType}
+                      onChange={(e) => onChange("agreementType", e.target.value)}
+                    >
+                      <option value="General Business">General Business</option>
+                      <option value="Partnership">Partnership</option>
+                      <option value="Joint Venture">Joint Venture</option>
+                      <option value="Employment">Employment</option>
+                    </select>
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Dispute Resolution
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Scale className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                    </div>
+                    <select
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none shadow-sm cursor-pointer font-medium"
+                      value={formData.disputeResolution}
+                      onChange={(e) => onChange("disputeResolution", e.target.value)}
+                    >
+                      <option value="Arbitration">Arbitration</option>
+                      <option value="Litigation">Litigation</option>
+                      <option value="Mediation">Mediation</option>
+                    </select>
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                    Term Duration
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Clock className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                    </div>
+                    <input
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                      placeholder="e.g. 1 Year, Indefinite"
+                      type="text"
+                      value={formData.termDuration}
+                      onChange={(e) => onChange("termDuration", e.target.value)}
+                    />
+                  </div>
+                </div>
+              </>
             ) : (
               <>
                 <div className="col-span-1">
@@ -397,6 +489,38 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                   placeholder="Detailed description of services to be provided..."
                   value={formData.scopeOfWork}
                   onChange={(e) => onChange("scopeOfWork", e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {formData.template === "Business Agreement" && (
+          <div className="space-y-5">
+            <h3 className="text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+              <div className="w-1 h-4 bg-primary rounded-full"></div> 4. Purpose & Terms
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                  Agreement Purpose
+                </label>
+                <textarea
+                  className="block w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm font-medium min-h-[80px]"
+                  placeholder="Detailed description of the mutual goal and purpose..."
+                  value={formData.agreementPurpose}
+                  onChange={(e) => onChange("agreementPurpose", e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                  Key Terms & Obligations
+                </label>
+                <textarea
+                  className="block w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm font-medium min-h-[100px]"
+                  placeholder="Enter Key Terms & Obligations..."
+                  value={formData.obligations}
+                  onChange={(e) => onChange("obligations", e.target.value)}
                 />
               </div>
             </div>

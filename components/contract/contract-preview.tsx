@@ -76,10 +76,11 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
             <h1 className="text-2xl font-bold uppercase tracking-widest border-b-2 border-black pb-4 inline-block">
               {formData.template === "NDA" ? "NON-DISCLOSURE AGREEMENT" : 
                formData.template === "Service Contract" ? "SERVICE CONTRACT AGREEMENT" : 
+               formData.template === "Business Agreement" ? "BUSINESS AGREEMENT" :
                (formData.template || "LOAN AGREEMENT")}
             </h1>
             <p className="text-sm font-bold text-gray-500">
-              Contract #{formData.template === "NDA" ? "NDA" : formData.template === "Service Contract" ? "SC" : "LN"}-2023-8492
+              Contract #{formData.template === "NDA" ? "NDA" : formData.template === "Service Contract" ? "SC" : formData.template === "Business Agreement" ? "BA" : "LN"}-2023-8492
             </p>
           </div>
 
@@ -92,7 +93,10 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
           <div className="pl-8 space-y-4 my-8">
             <div className="flex gap-2 items-baseline">
               <span className="font-bold min-w-[140px] text-gray-900">
-                {formData.template === "NDA" ? "Disclosing Party:" : formData.template === "Service Contract" ? "Client:" : "Lender:"}
+                {formData.template === "NDA" ? "Disclosing Party:" : 
+                 formData.template === "Service Contract" ? "Client:" : 
+                 formData.template === "Business Agreement" ? "Party A:" :
+                 "Lender:"}
               </span>
               <div className="flex-1">
                 <Highlight 
@@ -100,6 +104,7 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
                   placeholder={
                     formData.template === "NDA" ? "Enter Disclosing Party..." : 
                     formData.template === "Service Contract" ? "Enter Client Name..." : 
+                    formData.template === "Business Agreement" ? "Alpha Corp" :
                     "Enter Lender Name..."
                   } 
                 />
@@ -107,7 +112,10 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
             </div>
             <div className="flex gap-2 items-baseline">
               <span className="font-bold min-w-[140px] text-gray-900">
-                {formData.template === "NDA" ? "Receiving Party:" : formData.template === "Service Contract" ? "Service Provider:" : "Borrower:"}
+                {formData.template === "NDA" ? "Receiving Party:" : 
+                 formData.template === "Service Contract" ? "Service Provider:" : 
+                 formData.template === "Business Agreement" ? "Party B:" :
+                 "Borrower:"}
               </span>
               <div className="flex-1">
                 <Highlight 
@@ -115,6 +123,7 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
                   placeholder={
                     formData.template === "NDA" ? "Enter Recipient Name..." : 
                     formData.template === "Service Contract" ? "Enter Provider Name..." : 
+                    formData.template === "Business Agreement" ? "Enter Party B Name..." :
                     "Enter Borrower Name..."
                   } 
                 />
@@ -198,6 +207,43 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
                 </p>
               </div>
             </div>
+          ) : formData.template === "Business Agreement" ? (
+            <div className="space-y-6 mt-12">
+              <div>
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">1. Purpose of Agreement</h3>
+                <p className="mb-4 leading-loose text-justify">
+                  The parties agree to enter into this relationship for the following primary purpose:
+                  <br />
+                  <Highlight value={formData.agreementPurpose} placeholder="[Enter Detailed Purpose of Agreement...]" />
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">2. Terms & Conditions</h3>
+                <p className="mb-4 leading-loose text-justify">
+                  Both parties agree to adhere to the specific obligations and conditions set forth herein:
+                  <br />
+                  <Highlight value={formData.obligations} placeholder="[Enter Key Terms & Obligations...]" />
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">3. Term & Termination</h3>
+                <p className="mb-4 leading-loose text-justify">
+                  This Agreement shall be effective as of the Effective Date and shall continue for a period of 
+                  <Highlight value={formData.termDuration} placeholder="[Term Duration]" />
+                  , unless terminated earlier in accordance with the provisions of this Agreement.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">4. Governing Law</h3>
+                <p className="mb-4 leading-loose text-justify">
+                  This Agreement shall be governed by and construed in accordance with the laws of the State of 
+                  <Highlight value={formData.jurisdiction} placeholder="Select Jurisdiction..." />.
+                </p>
+              </div>
+            </div>
           ) : (
             <div className="space-y-6 mt-12">
               <div>
@@ -237,12 +283,14 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
                 <p className="font-bold text-sm uppercase">
                   {formData.template === "NDA" ? "Disclosing Party Signature" : 
                    formData.template === "Service Contract" ? "Client Signature" : 
+                   formData.template === "Business Agreement" ? "Party A Signature" :
                    "Lender Signature"}
                 </p>
                 <p className="text-xs text-gray-500 mt-1">
                   {formData.lenderName || (
                     formData.template === "NDA" ? "[Company Name]" : 
                     formData.template === "Service Contract" ? "[Client Name]" : 
+                    formData.template === "Business Agreement" ? "[Party A Name]" :
                     "[Lender Name]"
                   )}
                 </p>
@@ -254,12 +302,14 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
                 <p className="font-bold text-sm uppercase">
                   {formData.template === "NDA" ? "Receiving Party Signature" : 
                    formData.template === "Service Contract" ? "Service Provider Signature" : 
+                   formData.template === "Business Agreement" ? "Party B Signature" :
                    "Borrower Signature"}
                 </p>
                 <p className="text-xs text-gray-500 mt-1">
                   {formData.borrowerName || (
                     formData.template === "NDA" ? "[Recipient Name]" : 
                     formData.template === "Service Contract" ? "[Provider Name]" : 
+                    formData.template === "Business Agreement" ? "[Party B Name]" :
                     "[Borrower Name]"
                   )}
                 </p>
