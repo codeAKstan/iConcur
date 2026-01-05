@@ -1,41 +1,72 @@
 "use client"
 
-export function ContractDraftingForm() {
+import { Landmark, Shield, Briefcase, User, Building2, Calendar, MapPin, Sparkles, Save, Send } from "lucide-react"
+
+interface ContractDraftingFormProps {
+  formData: any
+  onChange: (field: string, value: string) => void
+}
+
+export function ContractDraftingForm({ formData, onChange }: ContractDraftingFormProps) {
   return (
     <section className="w-full lg:w-[40%] xl:w-[35%] flex flex-col bg-white dark:bg-surface-dark border-r border-gray-200 dark:border-gray-800 z-10 shadow-sm overflow-y-auto">
       {/* Breadcrumbs & Heading */}
       <div className="px-6 pt-6 pb-2">
         <div className="flex flex-wrap gap-2 items-center mb-4 text-xs">
-          <a className="text-gray-600 dark:text-gray-400 font-medium hover:text-primary" href="#">
+          <a className="text-gray-500 dark:text-gray-400 font-medium hover:text-primary" href="#">
             Home
           </a>
           <span className="text-gray-300 dark:text-gray-600">/</span>
-          <a className="text-gray-600 dark:text-gray-400 font-medium hover:text-primary" href="#">
+          <a className="text-gray-500 dark:text-gray-400 font-medium hover:text-primary" href="#">
             Contracts
           </a>
           <span className="text-gray-300 dark:text-gray-600">/</span>
-          <span className="text-gray-900 dark:text-white font-semibold">New Draft</span>
+          <span className="text-gray-900 dark:text-white font-bold">New Draft</span>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight mb-2">Drafting New Contract</h1>
-        <p className="text-gray-600 dark:text-gray-400 text-sm">
+        <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">Drafting New Contract</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">
           Fill in the details below to generate your legal document.
         </p>
       </div>
 
       {/* Template Selector */}
-      <div className="px-6 py-4">
-        <h3 className="text-gray-900 dark:text-white text-sm font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
-          1. Select Template
+      <div className="px-6 py-6">
+        <h3 className="text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
+          <div className="w-1 h-4 bg-primary rounded-full"></div> 1. Select Template
         </h3>
-        <div className="flex gap-3 overflow-x-auto pb-2">
-          <button className="flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 border border-primary text-primary transition-all">
-            <span className="text-sm font-semibold whitespace-nowrap">Loan Agreement</span>
+        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+          <button 
+            onClick={() => onChange("template", "Loan Agreement")}
+            className={`flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all ${
+              formData.template === "Loan Agreement" 
+                ? "bg-blue-50 dark:bg-blue-900/20 border-primary text-primary shadow-sm ring-1 ring-primary" 
+                : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-slate-600 dark:text-slate-300 hover:border-gray-300 dark:hover:border-gray-600"
+            }`}
+          >
+            <Landmark className="w-4 h-4" />
+            <span className="text-sm font-bold whitespace-nowrap">Loan Agreement</span>
           </button>
-          <button className="flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-300 text-gray-900 dark:text-gray-300 transition-all opacity-70 hover:opacity-100">
-            <span className="text-sm font-medium whitespace-nowrap">NDA</span>
+          <button 
+            onClick={() => onChange("template", "NDA")}
+            className={`flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all ${
+              formData.template === "NDA" 
+                ? "bg-blue-50 dark:bg-blue-900/20 border-primary text-primary shadow-sm ring-1 ring-primary" 
+                : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-slate-600 dark:text-slate-300 hover:border-gray-300 dark:hover:border-gray-600"
+            }`}
+          >
+            <Shield className="w-4 h-4" />
+            <span className="text-sm font-bold whitespace-nowrap">NDA</span>
           </button>
-          <button className="flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-300 text-gray-900 dark:text-gray-300 transition-all opacity-70 hover:opacity-100">
-            <span className="text-sm font-medium whitespace-nowrap">Service Contract</span>
+          <button 
+            onClick={() => onChange("template", "Service Contract")}
+            className={`flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all ${
+              formData.template === "Service Contract" 
+                ? "bg-blue-50 dark:bg-blue-900/20 border-primary text-primary shadow-sm ring-1 ring-primary" 
+                : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-slate-600 dark:text-slate-300 hover:border-gray-300 dark:hover:border-gray-600"
+            }`}
+          >
+            <Briefcase className="w-4 h-4" />
+            <span className="text-sm font-bold whitespace-nowrap">Service Contract</span>
           </button>
         </div>
       </div>
@@ -43,31 +74,42 @@ export function ContractDraftingForm() {
       {/* Form Section */}
       <div className="px-6 py-2 flex-1 space-y-8 pb-32">
         {/* Section 2: Parties */}
-        <div className="space-y-4">
-          <h3 className="text-gray-900 dark:text-white text-sm font-bold uppercase tracking-wider flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 pb-2">
-            2. Parties Involved
+        <div className="space-y-5">
+          <h3 className="text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+            <div className="w-1 h-4 bg-primary rounded-full"></div> 2. Parties Involved
           </h3>
           <div className="space-y-4">
-            <div className="grid grid-cols-1 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase mb-1.5">
-                  Lender (Party A)
-                </label>
+            <div>
+              <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                Lender (Party A)
+              </label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                </div>
                 <input
-                  className="block w-full px-3 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-gray-50 dark:bg-gray-800 text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm font-medium"
                   placeholder="Full Legal Name"
                   type="text"
-                  defaultValue="Acme Financial Corp."
+                  value={formData.lenderName}
+                  onChange={(e) => onChange("lenderName", e.target.value)}
                 />
               </div>
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase mb-1.5">
-                  Borrower (Party B)
-                </label>
+            </div>
+            <div>
+              <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                Borrower (Party B)
+              </label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Building2 className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                </div>
                 <input
-                  className="block w-full px-3 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm font-medium"
                   placeholder="Full Legal Name"
                   type="text"
+                  value={formData.borrowerName}
+                  onChange={(e) => onChange("borrowerName", e.target.value)}
                 />
               </div>
             </div>
@@ -75,71 +117,110 @@ export function ContractDraftingForm() {
         </div>
 
         {/* Section 3: Terms */}
-        <div className="space-y-4">
-          <h3 className="text-gray-900 dark:text-white text-sm font-bold uppercase tracking-wider flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 pb-2">
-            3. Terms & Conditions
+        <div className="space-y-5">
+          <h3 className="text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+            <div className="w-1 h-4 bg-primary rounded-full"></div> 3. Terms & Conditions
           </h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-2 sm:col-span-1">
-              <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase mb-1.5">
+          <div className="grid grid-cols-2 gap-5">
+            <div className="col-span-1">
+              <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
                 Loan Amount
               </label>
-              <input
-                className="block w-full px-3 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
-                placeholder="0.00"
-                type="number"
-              />
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span className="text-gray-400 font-bold group-focus-within:text-primary transition-colors">$</span>
+                </div>
+                <input
+                  className="block w-full pl-8 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                  placeholder="0.00"
+                  type="text"
+                  value={formData.loanAmount}
+                  onChange={(e) => onChange("loanAmount", e.target.value)}
+                />
+              </div>
             </div>
-            <div className="col-span-2 sm:col-span-1">
-              <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase mb-1.5">
+            <div className="col-span-1">
+              <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
                 Interest Rate (%)
               </label>
-              <input
-                className="block w-full px-3 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
-                placeholder="5.0"
-                step="0.1"
-                type="number"
-              />
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span className="text-gray-400 font-bold group-focus-within:text-primary transition-colors">%</span>
+                </div>
+                <input
+                  className="block w-full pl-8 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                  placeholder="5.0"
+                  step="0.1"
+                  type="number"
+                  value={formData.interestRate}
+                  onChange={(e) => onChange("interestRate", e.target.value)}
+                />
+              </div>
             </div>
             <div className="col-span-2">
-              <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase mb-1.5">
+              <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
                 Effective Date
               </label>
-              <input
-                className="block w-full px-3 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
-                type="date"
-              />
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Calendar className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                </div>
+                <input
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                  type="date"
+                  value={formData.effectiveDate}
+                  onChange={(e) => onChange("effectiveDate", e.target.value)}
+                />
+              </div>
             </div>
             <div className="col-span-2">
-              <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase mb-1.5">
+              <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
                 Jurisdiction / State
               </label>
-              <select className="block w-full px-3 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary appearance-none shadow-sm cursor-pointer">
-                <option>Select State</option>
-                <option>California</option>
-                <option>New York</option>
-                <option>Delaware</option>
-                <option>Texas</option>
-              </select>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <MapPin className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                </div>
+                <select 
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none shadow-sm cursor-pointer font-medium"
+                  value={formData.jurisdiction}
+                  onChange={(e) => onChange("jurisdiction", e.target.value)}
+                >
+                  <option value="">Select State</option>
+                  <option value="California">California</option>
+                  <option value="New York">New York</option>
+                  <option value="Delaware">Delaware</option>
+                  <option value="Texas">Texas</option>
+                </select>
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                  <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Section 4: AI Actions */}
-        <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 border border-indigo-100 dark:border-indigo-800/50">
-          <div className="flex items-start gap-3">
-            <div className="p-2 bg-white dark:bg-indigo-900 rounded-lg shadow-sm text-primary dark:text-indigo-300">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
-              </svg>
+        <div className="p-5 rounded-2xl bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 border border-indigo-100 dark:border-indigo-800/50 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+            <Sparkles className="w-24 h-24 text-primary" />
+          </div>
+          <div className="flex items-start gap-4 relative z-10">
+            <div className="p-2.5 bg-white dark:bg-indigo-950 rounded-xl shadow-sm text-primary dark:text-indigo-300 ring-1 ring-indigo-100 dark:ring-indigo-900">
+              <Sparkles className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-gray-900 dark:text-white mb-1">AI Contract Assistant</h4>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mb-3 leading-relaxed">
+              <h4 className="text-base font-bold text-slate-900 dark:text-white mb-1.5">AI Contract Assistant</h4>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed font-medium">
                 Let our AI analyze the risk factors and suggest improvements based on recent legal precedents.
               </p>
-              <button className="inline-flex items-center gap-2 text-xs font-bold text-primary hover:text-primary/80 dark:text-indigo-300 dark:hover:text-indigo-200 transition-colors">
+              <button className="inline-flex items-center gap-2 text-xs font-bold text-primary hover:text-primary/80 dark:text-indigo-300 dark:hover:text-indigo-200 transition-colors group/btn">
                 Analyze Contract
+                <svg className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
               </button>
             </div>
           </div>
@@ -147,11 +228,13 @@ export function ContractDraftingForm() {
       </div>
 
       {/* Sticky Footer Actions */}
-      <div className="sticky bottom-0 left-0 w-full p-4 bg-white/90 dark:bg-surface-dark/90 backdrop-blur-md border-t border-gray-200 dark:border-gray-800 flex items-center gap-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-        <button className="flex-1 h-11 flex items-center justify-center gap-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+      <div className="sticky bottom-0 left-0 w-full p-4 bg-white/80 dark:bg-surface-dark/80 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 flex items-center gap-3 shadow-[0_-8px_30px_rgba(0,0,0,0.04)] z-20">
+        <button className="flex-1 h-12 flex items-center justify-center gap-2 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-slate-700 dark:text-slate-200 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all">
+          <Save className="w-4 h-4" />
           Save Draft
         </button>
-        <button className="flex-[2] h-11 flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-bold shadow-md shadow-primary/20 transition-all hover:shadow-primary/30 transform active:scale-95">
+        <button className="flex-[1.5] h-12 flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-primary/25 transition-all hover:shadow-primary/40 transform active:scale-[0.98]">
+          <Send className="w-4 h-4" />
           Send for Signature
         </button>
       </div>

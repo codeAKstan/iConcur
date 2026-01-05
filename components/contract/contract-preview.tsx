@@ -1,4 +1,36 @@
-export function ContractPreview() {
+"use client"
+
+import { Minus, Plus, Download, Printer } from "lucide-react"
+
+interface ContractPreviewProps {
+  formData: any
+}
+
+export function ContractPreview({ formData }: ContractPreviewProps) {
+  const formatDate = (dateString: string) => {
+    if (!dateString) return null
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }
+
+  const Highlight = ({ value, placeholder, type = "text" }: { value: string, placeholder: string, type?: "text" | "number" }) => {
+    if (!value) {
+      return (
+        <span className="bg-yellow-50 text-yellow-800 px-2 py-0.5 rounded border border-yellow-200 border-dashed font-medium italic inline-flex items-center gap-1 mx-1">
+          ✏ {placeholder}
+        </span>
+      )
+    }
+    return (
+      <span className="bg-blue-50 text-blue-800 px-2 py-0.5 rounded border border-blue-200 font-medium mx-1">
+        {type === "number" ? value : value}
+      </span>
+    )
+  }
+
   return (
     <section className="hidden lg:flex flex-1 bg-gray-100 dark:bg-[#0c1018] relative flex-col items-center justify-start pt-8 pb-8 overflow-y-auto px-4 lg:px-12">
       {/* Toolbar */}
@@ -7,27 +39,27 @@ export function ContractPreview() {
           className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors"
           title="Zoom Out"
         >
-          −
+          <Minus className="w-4 h-4" />
         </button>
         <span className="text-xs font-medium w-12 text-center text-gray-600 dark:text-gray-300">100%</span>
         <button
           className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors"
           title="Zoom In"
         >
-          +
+          <Plus className="w-4 h-4" />
         </button>
         <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 mx-1"></div>
         <button
           className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors"
           title="Download PDF"
         >
-          ⬇
+          <Download className="w-4 h-4" />
         </button>
         <button
           className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors"
           title="Print"
         >
-          🖨
+          <Printer className="w-4 h-4" />
         </button>
       </div>
 
@@ -42,43 +74,82 @@ export function ContractPreview() {
         <div className="space-y-8 font-serif leading-relaxed text-[15px]">
           <div className="text-center space-y-4 mb-12">
             <h1 className="text-2xl font-bold uppercase tracking-widest border-b-2 border-black pb-4 inline-block">
-              Loan Agreement
+              {formData.template || "LOAN AGREEMENT"}
             </h1>
             <p className="text-sm font-bold text-gray-500">Contract #LN-2023-8492</p>
           </div>
 
-          <p className="text-justify">
-            This Loan Agreement (the "Agreement") is entered into as of{" "}
-            <span className="bg-blue-50 text-blue-800 px-1 py-0.5 rounded border border-blue-200 font-medium">
-              October 24, 2023
-            </span>{" "}
+          <p className="text-justify leading-loose">
+            This {formData.template} (the "Agreement") is entered into as of 
+            <Highlight value={formatDate(formData.effectiveDate)} placeholder="Select Date" />
             (the "Effective Date"), by and between:
           </p>
 
-          <div className="pl-8 space-y-4">
-            <div className="flex gap-2">
-              <span className="font-bold min-w-[80px]">Lender:</span>
-              <span className="bg-blue-50 text-blue-800 px-2 rounded border border-blue-200 font-medium w-full max-w-md">
-                Acme Financial Corp.
-              </span>
+          <div className="pl-8 space-y-4 my-8">
+            <div className="flex gap-2 items-baseline">
+              <span className="font-bold min-w-[100px] text-gray-900">Lender:</span>
+              <div className="flex-1">
+                <Highlight value={formData.lenderName} placeholder="Enter Lender Name..." />
+              </div>
             </div>
-            <div className="flex gap-2">
-              <span className="font-bold min-w-[80px]">Borrower:</span>
-              <span className="bg-yellow-50 text-yellow-800 px-2 rounded border border-yellow-200 border-dashed font-medium w-full max-w-md italic flex items-center gap-1">
-                ✏ Enter Borrower Name...
-              </span>
+            <div className="flex gap-2 items-baseline">
+              <span className="font-bold min-w-[100px] text-gray-900">Borrower:</span>
+              <div className="flex-1">
+                <Highlight value={formData.borrowerName} placeholder="Enter Borrower Name..." />
+              </div>
             </div>
           </div>
 
-          <div className="border-t-2 border-black pt-6 mt-12">
-            <h3 className="font-bold mb-4">1. LOAN AMOUNT AND TERMS</h3>
-            <p className="mb-4">
-              The Lender agrees to provide the Borrower with a loan in the amount of the principal sum specified in the
-              schedule attached hereto...
-            </p>
+          <div className="space-y-6 mt-12">
+            <div>
+              <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">1. Loan Amount & Interest</h3>
+              <p className="mb-4 leading-loose text-justify">
+                The Lender agrees to loan the Borrower the principal sum of 
+                <Highlight value={formData.loanAmount ? `$${formData.loanAmount}` : ""} placeholder="Enter Amount" />
+                (the "Loan"). The unpaid principal shall bear interest at the rate of 
+                <Highlight value={formData.interestRate ? `${formData.interestRate}%` : ""} placeholder="0.0%" type="number" />
+                per annum.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">2. Payment Schedule</h3>
+              <p className="mb-4 leading-loose text-justify">
+                Borrower agrees to repay the Loan in monthly installments beginning on 
+                <Highlight value={formatDate(formData.effectiveDate)} placeholder="[Date]" />
+                and continuing until the Principal and Interest are paid in full.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">3. Governing Law</h3>
+              <p className="mb-4 leading-loose text-justify">
+                This Agreement shall be governed by and construed in accordance with the laws of the State of 
+                <Highlight value={formData.jurisdiction} placeholder="Select Jurisdiction..." />.
+              </p>
+            </div>
+          </div>
+          
+          <div className="mt-20 grid grid-cols-2 gap-12">
+            <div className="space-y-8">
+              <div className="border-b border-black w-full"></div>
+              <div>
+                <p className="font-bold text-sm uppercase">Lender Signature</p>
+                <p className="text-xs text-gray-500 mt-1">{formData.lenderName || "[Lender Name]"}</p>
+              </div>
+            </div>
+            <div className="space-y-8">
+              <div className="border-b border-black w-full"></div>
+              <div>
+                <p className="font-bold text-sm uppercase">Borrower Signature</p>
+                <p className="text-xs text-gray-500 mt-1">{formData.borrowerName || "[Borrower Name]"}</p>
+              </div>
+            </div>
           </div>
 
-          <p className="italic text-gray-600 text-sm">[ Document continues... ]</p>
+          <p className="italic text-gray-400 text-xs text-center mt-12 border-t border-gray-100 pt-8">
+            Generated via iConcur Legal AI • {new Date().toLocaleDateString()}
+          </p>
         </div>
       </div>
       <div className="h-20"></div>
