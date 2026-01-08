@@ -1,8 +1,26 @@
 "use client"
 
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Menu } from "lucide-react"
+import { DashboardSidebar } from "./dashboard-sidebar"
+
 export function DashboardHeader() {
   return (
-    <header className="h-20 shrink-0 flex items-center justify-between px-8 bg-white dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800">
+    <header className="h-20 shrink-0 flex items-center justify-between px-4 lg:px-8 bg-white dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800">
+      {/* Mobile Menu Toggle */}
+      <div className="lg:hidden mr-4">
+        <Sheet>
+          <SheetTrigger asChild>
+            <button className="p-2 -ml-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+              <Menu className="w-6 h-6" />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 w-72 border-r border-slate-200 dark:border-slate-800">
+            <DashboardSidebar className="w-full border-none" />
+          </SheetContent>
+        </Sheet>
+      </div>
+
       {/* Search Bar */}
       <div className="flex-1 max-w-xl">
         <div className="relative group">

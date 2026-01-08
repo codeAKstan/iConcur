@@ -5,8 +5,13 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useUser } from "@/hooks/use-user"
 import { LogOut, LayoutDashboard, FileText, PenTool, BarChart, Settings } from "lucide-react"
+import { cn } from "@/lib/utils"
 
-export function DashboardSidebar() {
+interface DashboardSidebarProps {
+  className?: string
+}
+
+export function DashboardSidebar({ className }: DashboardSidebarProps) {
   const { user, loading } = useUser()
   const router = useRouter()
 
@@ -24,7 +29,7 @@ export function DashboardSidebar() {
   const userInitials = user ? `${user.firstName[0]}${user.lastName[0]}`.toUpperCase() : ""
 
   return (
-    <aside className="flex w-64 flex-col border-r border-slate-200 bg-white dark:bg-surface-dark dark:border-slate-800 transition-all duration-300 ease-in-out shrink-0 h-full">
+    <aside className={cn("flex w-64 flex-col border-r border-slate-200 bg-white dark:bg-surface-dark dark:border-slate-800 transition-all duration-300 ease-in-out shrink-0 h-full", className)}>
       {/* Logo Area */}
       <div className="flex h-20 items-center px-6 border-b border-slate-100 dark:border-slate-800/50">
         <div className="relative h-[40px] w-[160px]">
