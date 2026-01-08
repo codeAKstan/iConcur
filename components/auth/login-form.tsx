@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { Eye, EyeOff } from "lucide-react"
 
 export function LoginForm() {
   const router = useRouter()
@@ -11,6 +12,7 @@ export function LoginForm() {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -110,7 +112,7 @@ export function LoginForm() {
                 className="w-full h-12 px-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-gray-500 dark:placeholder:text-gray-400 pr-10"
                 id="password"
                 placeholder="Enter your password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={formData.password}
                 onChange={handleChange}
                 required
@@ -118,10 +120,13 @@ export function LoginForm() {
               <button
                 className="absolute right-0 top-0 h-full px-4 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors focus:outline-none"
                 type="button"
+                onClick={() => setShowPassword(!showPassword)}
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
-                </svg>
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
           </div>
