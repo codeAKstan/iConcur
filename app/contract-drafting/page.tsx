@@ -37,9 +37,9 @@ export default function ContractDraftingPage() {
   }
 
   return (
-    <ContractDraftingLayout>
-      <ContractDraftingForm formData={formData} onChange={handleChange} />
-      <ContractPreview formData={formData} />
-    </ContractDraftingLayout>
+    <ContractDraftingLayout
+      form={<ContractDraftingForm formData={formData} onChange={handleChange} />}
+      preview={<ContractPreview formData={formData} />}
+    />
   )
 }
