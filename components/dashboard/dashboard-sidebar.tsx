@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { useUser } from "@/hooks/use-user"
 import { LogOut, LayoutDashboard, FileText, PenTool, BarChart, Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -28,6 +28,12 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
 
   const userInitials = user ? `${user.firstName[0]}${user.lastName[0]}`.toUpperCase() : ""
 
+  const pathname = usePathname()
+
+  const isActive = (path: string) => {
+    return pathname === path
+  }
+
   return (
     <aside className={cn("flex w-64 flex-col border-r border-slate-200 bg-white dark:bg-surface-dark dark:border-slate-800 transition-all duration-300 ease-in-out shrink-0 h-full", className)}>
       {/* Logo Area */}
@@ -45,35 +51,60 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
       {/* Navigation Links */}
       <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-1">
         <Link
-          className="group flex items-center gap-3 rounded-lg px-3 py-2.5 bg-primary/10 text-primary font-medium transition-colors"
+          className={cn(
+            "group flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors",
+            isActive("/dashboard")
+              ? "bg-primary/10 text-primary"
+              : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary"
+          )}
           href="/dashboard"
         >
           <LayoutDashboard className="w-5 h-5" />
           <span>Dashboard</span>
         </Link>
         <Link
-          className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors font-medium"
+          className={cn(
+            "group flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors",
+            isActive("/contracts")
+              ? "bg-primary/10 text-primary"
+              : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary"
+          )}
           href="/contracts"
         >
           <FileText className="w-5 h-5" />
           <span>My Contracts</span>
         </Link>
         <Link
-          className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors font-medium"
+          className={cn(
+            "group flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors",
+            isActive("/contract-drafting")
+              ? "bg-primary/10 text-primary"
+              : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary"
+          )}
           href="/contract-drafting"
         >
           <PenTool className="w-5 h-5" />
           <span>Draft Contract</span>
         </Link>
         <Link
-          className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors font-medium"
+          className={cn(
+            "group flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors",
+            isActive("/contract-analyzer")
+              ? "bg-primary/10 text-primary"
+              : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary"
+          )}
           href="/contract-analyzer"
         >
           <BarChart className="w-5 h-5" />
           <span>Analyze Contract</span>
         </Link>
         <Link
-          className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors font-medium"
+          className={cn(
+            "group flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors",
+            isActive("/settings")
+              ? "bg-primary/10 text-primary"
+              : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary"
+          )}
           href="/settings"
         >
           <Settings className="w-5 h-5" />
@@ -99,7 +130,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
         ) : (
           <div className="h-14 w-full bg-slate-100 dark:bg-slate-800 animate-pulse rounded-lg" />
         )}
-        
+
         <button
           onClick={handleLogout}
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors font-medium text-sm"
