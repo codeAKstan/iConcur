@@ -1,11 +1,20 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Inter, Plus_Jakarta_Sans } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+})
+
+const plusJakartaSans = Plus_Jakarta_Sans({ 
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "iConcur - Intelligent Contract Management",
@@ -43,7 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${_geist.className} font-sans antialiased bg-white dark:bg-background-dark`}>
+      <body className={`${inter.variable} ${plusJakartaSans.variable} font-sans antialiased bg-white dark:bg-background-dark`}>
         {children}
         <Analytics />
       </body>
