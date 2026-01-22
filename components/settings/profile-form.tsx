@@ -1,10 +1,76 @@
+"use client"
 
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useUser } from "@/hooks/use-user"
+import { useToast } from "@/components/ui/use-toast"
+import { Loader2 } from "lucide-react"
 
 export function ProfileForm() {
+    const { user, loading } = useUser()
+    const { toast } = useToast()
+    const [saving, setSaving] = useState(false)
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        jobTitle: "",
+    })
+
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                firstName: user.firstName || "",
+                lastName: user.lastName || "",
+                email: user.email || "",
+                jobTitle: user.jobTitle || "",
+            })
+        }
+    }, [user])
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = e.target
+        setFormData(prev => ({ ...prev, [id]: value }))
+    }
+
+    const handleSubmit = async () => {
+        setSaving(true)
+        try {
+            const res = await fetch("/api/auth/me", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            })
+
+            if (!res.ok) throw new Error("Failed to update profile")
+
+            toast({
+                title: "Profile updated",
+                description: "Your profile information has been saved successfully.",
+            })
+        } catch (error) {
+            console.error(error)
+            toast({
+                title: "Error",
+                description: "Failed to update profile. Please try again.",
+                variant: "destructive",
+            })
+        } finally {
+            setSaving(false)
+        }
+    }
+
+    if (loading) {
+        return (
+            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-surface-dark p-12 flex justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+            </div>
+        )
+    }
+
     return (
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-surface-dark overflow-hidden">
             <div className="p-6 border-b border-slate-100 dark:border-slate-800/50">
@@ -16,8 +82,10 @@ export function ProfileForm() {
                 {/* Avatar Section */}
                 <div className="flex items-center gap-6">
                     <Avatar className="h-20 w-20 border-2 border-white dark:border-slate-700 shadow-md">
-                        <AvatarImage src="/placeholder-user.jpg" />
-                        <AvatarFallback className="text-lg bg-slate-100 dark:bg-slate-800">JD</AvatarFallback>
+                        <AvatarImage src={user?.avatarUrl || "/placeholder-user.jpg"} />
+                        <AvatarFallback className="text-lg bg-slate-100 dark:bg-slate-800">
+                            {user?.firstName?.[0]}{user?.lastName?.[0]}
+                        </AvatarFallback>
                     </Avatar>
                     <div className="flex gap-2">
                         <Button variant="outline" size="sm" className="h-8">Change</Button>
@@ -28,28 +96,55 @@ export function ProfileForm() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                         <Label htmlFor="firstName">First name</Label>
-                        <Input id="firstName" defaultValue="John" className="bg-white dark:bg-slate-900/50" />
+                        <Input 
+                            id="firstName" 
+                            value={formData.firstName} 
+                            onChange={handleChange}
+                            className="bg-white dark:bg-slate-900/50" 
+                        />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="lastName">Last name</Label>
-                        <Input id="lastName" defaultValue="Doe" className="bg-white dark:bg-slate-900/50" />
+                        <Input 
+                            id="lastName" 
+                            value={formData.lastName} 
+                            onChange={handleChange}
+                            className="bg-white dark:bg-slate-900/50" 
+                        />
                     </div>
                 </div>
 
                 <div className="space-y-2">
                     <Label htmlFor="email">Email address</Label>
-                    <Input id="email" defaultValue="john@iconcur.com" className="bg-white dark:bg-slate-900/50" />
+                    <Input 
+                        id="email" 
+                        value={formData.email} 
+                        disabled
+                        className="bg-slate-50 dark:bg-slate-900/50 text-slate-500" 
+                    />
                 </div>
 
                 <div className="space-y-2">
                     <Label htmlFor="jobTitle">Job Title</Label>
-                    <Input id="jobTitle" defaultValue="Senior Contract Manager" className="bg-white dark:bg-slate-900/50" />
+                    <Input 
+                        id="jobTitle" 
+                        value={formData.jobTitle} 
+                        onChange={handleChange}
+                        className="bg-white dark:bg-slate-900/50" 
+                    />
                 </div>
             </div>
 
             <div className="p-4 bg-slate-50 dark:bg-slate-900/30 flex justify-end gap-3 border-t border-slate-100 dark:border-slate-800/50">
                 <Button variant="ghost">Cancel</Button>
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save Changes</Button>
+                <Button 
+                    onClick={handleSubmit} 
+                    disabled={saving}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                    {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Save Changes
+                </Button>
             </div>
         </div>
     )

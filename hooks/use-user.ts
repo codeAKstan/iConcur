@@ -7,6 +7,12 @@ export interface User {
   firstName: string
   lastName: string
   email: string
+  jobTitle?: string
+  avatarUrl?: string
+  notificationPreferences?: {
+    contractUpdates: boolean
+    mentions: boolean
+  }
 }
 
 export function useUser() {

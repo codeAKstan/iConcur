@@ -22,6 +22,24 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please provide a password'],
     minlength: [8, 'Password cannot be less than 8 characters'],
   },
+  jobTitle: {
+    type: String,
+    default: '',
+  },
+  avatarUrl: {
+    type: String,
+    default: '',
+  },
+  notificationPreferences: {
+    contractUpdates: {
+      type: Boolean,
+      default: true,
+    },
+    mentions: {
+      type: Boolean,
+      default: true,
+    },
+  },
   createdAt: {
     type: Date,
     default: Date.now,
