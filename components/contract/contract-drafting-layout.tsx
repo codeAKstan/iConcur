@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 import { useState } from "react"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 interface ContractDraftingLayoutProps {
@@ -15,15 +16,8 @@ export function ContractDraftingLayout({ form, preview }: ContractDraftingLayout
       {/* Top Navigation */}
       <header className="flex-none flex items-center justify-between whitespace-nowrap border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-surface-dark px-6 py-3 z-20">
         <div className="flex items-center gap-4 text-gray-900 dark:text-white">
-          <div className="size-8 text-primary">
-            <svg className="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12.96 4C9.52226 4 6.78442 6.82903 6.94829 10.2646C7.07849 12.9942 9.04949 15.2287 11.75 15.7766V29H4C4 36.732 10.268 43 18 43H30C37.732 43 44 36.732 44 29V21.4142C44 20.8838 43.7893 20.3751 43.4142 20L31.4142 8C31.0391 7.62489 30.5304 7.41421 30 7.41421H20.2234C19.6755 4.71372 17.4409 2.74272 14.7113 2.61252C14.2492 2.59048 13.6705 2.59048 13.2085 2.61252C12.96 2.62438 12.96 4 12.96 4Z"
-                fill="currentColor"
-              />
-            </svg>
-          </div>
-          <h2 className="text-gray-900 dark:text-white text-xl font-bold hidden md:block">iConcur</h2>
+          <Image src="/logo.png" alt="iConcur Logo" width={128} height={128} className="rounded-lg" />
+          {/* <h2 className="text-gray-900 dark:text-white text-xl font-bold hidden md:block">iConcur</h2> */}
         </div>
 
         {/* Mobile Toggle */}
