@@ -6,6 +6,7 @@ import { useRouter, usePathname } from "next/navigation"
 import { useUser } from "@/hooks/use-user"
 import { LogOut, LayoutDashboard, FileText, PenTool, BarChart, Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 interface DashboardSidebarProps {
   className?: string
@@ -115,9 +116,12 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
       <div className="border-t border-slate-200 dark:border-slate-800 p-4 space-y-2">
         {!loading && user ? (
           <div className="flex items-center gap-3 rounded-lg p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">
-            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
-              {userInitials}
-            </div>
+            <Avatar className="h-10 w-10 border border-slate-200 dark:border-slate-700">
+              <AvatarImage src={user.avatarUrl} alt={user.firstName} />
+              <AvatarFallback className="bg-primary/10 text-primary font-bold text-sm">
+                {userInitials}
+              </AvatarFallback>
+            </Avatar>
             <div className="flex flex-col min-w-0">
               <span className="text-sm font-semibold text-slate-900 dark:text-white truncate">
                 {user.firstName} {user.lastName}
