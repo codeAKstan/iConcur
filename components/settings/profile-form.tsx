@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -13,6 +13,9 @@ export function ProfileForm() {
     const { user, loading } = useUser()
     const { toast } = useToast()
     const [saving, setSaving] = useState(false)
+    const [uploading, setUploading] = useState(false)
+    const fileInputRef = useRef<HTMLInputElement>(null)
+    const [avatarUrl, setAvatarUrl] = useState("")
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -28,12 +31,72 @@ export function ProfileForm() {
                 email: user.email || "",
                 jobTitle: user.jobTitle || "",
             })
+            if (user.avatarUrl) {
+                setAvatarUrl(user.avatarUrl)
+            }
         }
     }, [user])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target
         setFormData(prev => ({ ...prev, [id]: value }))
+    }
+
+    const handleAvatarClick = () => {
+        fileInputRef.current?.click()
+    }
+
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+
+        if (file.size > 5 * 1024 * 1024) { // 5MB limit
+            toast({
+                title: "File too large",
+                description: "Please upload an image smaller than 5MB.",
+                variant: "destructive",
+            })
+            return
+        }
+
+        setUploading(true)
+        try {
+            const response = await fetch(`/api/avatar/upload?filename=${file.name}`, {
+                method: 'POST',
+                body: file,
+            })
+
+            if (!response.ok) throw new Error('Failed to upload image')
+
+            const newBlob = await response.json()
+            setAvatarUrl(newBlob.url)
+            
+            // Immediately update user profile with new avatar URL
+            const updateRes = await fetch("/api/auth/me", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ avatarUrl: newBlob.url }),
+            })
+            
+            if (!updateRes.ok) throw new Error("Failed to update profile picture")
+
+            toast({
+                title: "Avatar updated",
+                description: "Your profile picture has been updated successfully.",
+            })
+        } catch (error) {
+            console.error('Error uploading avatar:', error)
+            toast({
+                title: "Error",
+                description: "Failed to upload profile picture. Please try again.",
+                variant: "destructive",
+            })
+        } finally {
+            setUploading(false)
+            if (fileInputRef.current) {
+                fileInputRef.current.value = ""
+            }
+        }
     }
 
     const handleSubmit = async () => {
@@ -82,13 +145,30 @@ export function ProfileForm() {
                 {/* Avatar Section */}
                 <div className="flex items-center gap-6">
                     <Avatar className="h-20 w-20 border-2 border-white dark:border-slate-700 shadow-md">
-                        <AvatarImage src={user?.avatarUrl || "/placeholder-user.jpg"} />
+                        <AvatarImage src={avatarUrl || "/placeholder-user.jpg"} />
                         <AvatarFallback className="text-lg bg-slate-100 dark:bg-slate-800">
-                            {user?.firstName?.[0]}{user?.lastName?.[0]}
+                            {uploading ? <Loader2 className="h-6 w-6 animate-spin text-slate-400" /> : (
+                                <>{user?.firstName?.[0]}{user?.lastName?.[0]}</>
+                            )}
                         </AvatarFallback>
                     </Avatar>
                     <div className="flex gap-2">
-                        <Button variant="outline" size="sm" className="h-8">Change</Button>
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            className="hidden"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                        />
+                        <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="h-8"
+                            onClick={handleAvatarClick}
+                            disabled={uploading}
+                        >
+                            {uploading ? "Uploading..." : "Change"}
+                        </Button>
                         <Button variant="outline" size="sm" className="h-8 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20 border-red-200 dark:border-red-900/30">Remove</Button>
                     </div>
                 </div>
