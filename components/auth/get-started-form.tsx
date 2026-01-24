@@ -50,6 +50,10 @@ export function GetStartedForm() {
     }
   }
 
+  const handleGoogleSignup = () => {
+    window.location.href = '/api/auth/google'
+  }
+
   return (
     <div className="flex flex-col lg:order-2 order-1">
       <div className="bg-white dark:bg-surface-dark rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-6 sm:p-8">
@@ -73,7 +77,11 @@ export function GetStartedForm() {
 
         {/* Social Sign Up */}
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <button className="flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-surface-dark hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <button 
+            type="button"
+            onClick={handleGoogleSignup}
+            className="flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-surface-dark hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+          >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

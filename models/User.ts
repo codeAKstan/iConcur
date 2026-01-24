@@ -19,8 +19,13 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Please provide a password'],
     minlength: [8, 'Password cannot be less than 8 characters'],
+    select: false,
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true,
   },
   jobTitle: {
     type: String,
@@ -47,5 +52,10 @@ const UserSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 });
+
+// Force model recompilation in development to handle schema changes
+if (process.env.NODE_ENV === 'development' && mongoose.models.User) {
+  delete mongoose.models.User;
+}
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);
