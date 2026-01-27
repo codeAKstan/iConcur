@@ -3,6 +3,7 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 import { DashboardSidebar } from "./dashboard-sidebar"
+import Link from "next/link"
 
 export function DashboardHeader() {
   return (
@@ -48,12 +49,15 @@ export function DashboardHeader() {
           </svg>
           <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-900"></span>
         </button>
-        <button className="hidden md:flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-all">
+        <Link 
+          href="/contract-drafting"
+          className="hidden md:flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-all"
+        >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
           </svg>
           Create New Contract
-        </button>
+        </Link>
       </div>
     </header>
   )
