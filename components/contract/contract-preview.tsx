@@ -1,12 +1,23 @@
 "use client"
 
 import { Minus, Plus, Download, Printer } from "lucide-react"
+import { useState } from "react"
 
 interface ContractPreviewProps {
   formData: any
 }
 
 export function ContractPreview({ formData }: ContractPreviewProps) {
+  const [zoomLevel, setZoomLevel] = useState(100)
+
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 10, 200))
+  }
+
+  const handleZoomOut = () => {
+    setZoomLevel(prev => Math.max(prev - 10, 50))
+  }
+
   const formatDate = (dateString: string) => {
     if (!dateString) return null
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -38,13 +49,15 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
         <button
           className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors"
           title="Zoom Out"
+          onClick={handleZoomOut}
         >
           <Minus className="w-4 h-4" />
         </button>
-        <span className="text-xs font-medium w-12 text-center text-gray-600 dark:text-gray-300">100%</span>
+        <span className="text-xs font-medium w-12 text-center text-gray-600 dark:text-gray-300">{zoomLevel}%</span>
         <button
           className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors"
           title="Zoom In"
+          onClick={handleZoomIn}
         >
           <Plus className="w-4 h-4" />
         </button>
@@ -64,7 +77,10 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
       </div>
 
       {/* Paper Document */}
-      <div className="bg-white text-black w-full max-w-[800px] min-h-[1130px] p-16 rounded-sm relative origin-top transform transition-transform duration-200 shadow-lg">
+      <div 
+        className="bg-white text-black w-full max-w-[800px] min-h-[1130px] p-16 rounded-sm relative origin-top transform transition-transform duration-200 shadow-lg"
+        style={{ transform: `scale(${zoomLevel / 100})` }}
+      >
         {/* Watermark */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03] select-none">
           <div className="text-8xl font-black -rotate-45 uppercase">Draft</div>
