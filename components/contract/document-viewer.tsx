@@ -1,14 +1,35 @@
+"use client"
+import { useState } from "react"
+
 export function DocumentViewer() {
+  const [zoomLevel, setZoomLevel] = useState(100)
+
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 10, 200))
+  }
+
+  const handleZoomOut = () => {
+    setZoomLevel(prev => Math.max(prev - 10, 50))
+  }
+
   return (
     <section className="flex-1 flex flex-col bg-[#f0f2f5] dark:bg-[#0d121b] relative z-10 min-w-0 transition-all duration-300">
       {/* Toolbar */}
       <div className="h-14 bg-white dark:bg-[#1a202c] border-b border-gray-200 dark:border-slate-700 flex items-center justify-between px-6 shadow-sm z-10 flex-none">
         <div className="flex items-center gap-1 bg-gray-100 dark:bg-slate-800 p-1 rounded-lg">
-          <button className="p-1.5 rounded-md hover:bg-white dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-primary transition-all">
+          <button 
+            className="p-1.5 rounded-md hover:bg-white dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-primary transition-all"
+            onClick={handleZoomOut}
+            title="Zoom Out"
+          >
             −
           </button>
-          <span className="text-xs font-medium w-12 text-center text-slate-600 dark:text-slate-300">100%</span>
-          <button className="p-1.5 rounded-md hover:bg-white dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-primary transition-all">
+          <span className="text-xs font-medium w-12 text-center text-slate-600 dark:text-slate-300">{zoomLevel}%</span>
+          <button 
+            className="p-1.5 rounded-md hover:bg-white dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-primary transition-all"
+            onClick={handleZoomIn}
+            title="Zoom In"
+          >
             +
           </button>
         </div>
@@ -27,7 +48,10 @@ export function DocumentViewer() {
 
       {/* Document Canvas */}
       <div className="flex-1 overflow-y-auto p-8 flex justify-center">
-        <div className="bg-white dark:bg-[#1e2533] w-full max-w-[816px] min-h-[1056px] shadow-lg rounded-sm p-[96px] relative text-[#1f2937] dark:text-gray-200">
+        <div 
+          className="bg-white dark:bg-[#1e2533] w-full max-w-[816px] min-h-[1056px] shadow-lg rounded-sm p-[96px] relative text-[#1f2937] dark:text-gray-200 origin-top transform transition-transform duration-200"
+          style={{ transform: `scale(${zoomLevel / 100})` }}
+        >
           <div className="flex justify-between items-start mb-12">
             <div>
               <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">SERVICE AGREEMENT</h1>
