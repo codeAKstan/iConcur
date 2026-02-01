@@ -126,12 +126,6 @@ export async function GET(request: Request) {
     if (error.name === 'ValidationError') {
        console.error('Validation Errors:', error.errors);
     }
-    
-    let errorMessage = 'Authentication failed';
-    if (error.code === 'UND_ERR_CONNECT_TIMEOUT' || error.name === 'TimeoutError') {
-      errorMessage = 'Connection timed out. Please check your internet.';
-    }
-    
-    return NextResponse.redirect(new URL(`/login?error=${encodeURIComponent(errorMessage)}`, request.url));
+    return NextResponse.redirect(new URL('/login?error=Authentication failed', request.url));
   }
 }
