@@ -13,7 +13,7 @@ export default function ContractDraftingPage() {
     relationshipPurpose: "Evaluation of potential business partnership",
     confidentialityTerm: "3 Years",
     returnInformation: "Destroy or Return",
-    effectiveDate: "2023-10-24",
+    effectiveDate: new Date().toISOString().split('T')[0],
     jurisdiction: "California",
     // Service specific fields
     paymentTerms: "Fixed Price",
@@ -30,6 +30,7 @@ export default function ContractDraftingPage() {
     // Loan specific fields (kept for switching templates)
     loanAmount: "",
     interestRate: "5.0",
+    currency: "USD", // Default currency
   })
 
   const handleChange = (field: string, value: string) => {

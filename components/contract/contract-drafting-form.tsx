@@ -258,11 +258,20 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                     Amount / Rate
                   </label>
                   <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span className="text-gray-400 font-bold group-focus-within:text-primary transition-colors">$</span>
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center z-10">
+                      <select
+                        value={formData.currency}
+                        onChange={(e) => onChange("currency", e.target.value)}
+                        className="h-full bg-transparent border-none text-gray-500 font-bold text-xs focus:ring-0 cursor-pointer pr-1 py-0 pl-0 appearance-none"
+                        style={{ pointerEvents: 'auto' }}
+                      >
+                        <option value="USD">$</option>
+                        <option value="GBP">£</option>
+                        <option value="NGN">₦</option>
+                      </select>
                     </div>
                     <input
-                      className="block w-full pl-8 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                      className="block w-full pl-12 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
                       placeholder="0.00"
                       type="text"
                       value={formData.amountRate}
@@ -379,11 +388,20 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                     Loan Amount
                   </label>
                   <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span className="text-gray-400 font-bold group-focus-within:text-primary transition-colors">$</span>
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center z-10">
+                      <select
+                        value={formData.currency}
+                        onChange={(e) => onChange("currency", e.target.value)}
+                        className="h-full bg-transparent border-none text-gray-500 font-bold text-xs focus:ring-0 cursor-pointer pr-1 py-0 pl-0 appearance-none"
+                        style={{ pointerEvents: 'auto' }}
+                      >
+                        <option value="USD">$</option>
+                        <option value="GBP">£</option>
+                        <option value="NGN">₦</option>
+                      </select>
                     </div>
                     <input
-                      className="block w-full pl-8 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
+                      className="block w-full pl-12 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm font-medium"
                       placeholder="0.00"
                       type="text"
                       value={formData.loanAmount}
@@ -427,7 +445,7 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                 </div>
               </>
             )}
-            {formData.template !== "Service Contract" && (
+            {formData.template !== "Service Contract" && formData.template !== "Loan Agreement" && !formData.template && (
               <div className="col-span-2">
                 <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
                   Effective Date

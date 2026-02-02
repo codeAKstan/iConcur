@@ -1,7 +1,7 @@
 "use client"
 
 import { Minus, Plus, Download, Printer } from "lucide-react"
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 interface ContractPreviewProps {
   formData: any
@@ -9,6 +9,7 @@ interface ContractPreviewProps {
 
 export function ContractPreview({ formData }: ContractPreviewProps) {
   const [zoomLevel, setZoomLevel] = useState(100)
+  const printRef = useRef<HTMLDivElement>(null)
 
   const handleZoomIn = () => {
     setZoomLevel(prev => Math.min(prev + 10, 200))
@@ -18,6 +19,47 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
     setZoomLevel(prev => Math.max(prev - 10, 50))
   }
 
+  const handleDownloadPdf = async () => {
+    if (!printRef.current) return
+
+    try {
+      const html2canvas = (await import('html2canvas')).default
+      const { jsPDF } = await import('jspdf')
+
+      // Capture the element with html2canvas
+      const canvas = await html2canvas(printRef.current, {
+        scale: 2, // Higher scale for better resolution
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+        onclone: (clonedDoc) => {
+          // Reset transform on the cloned element to ensure correct capture
+          const clonedElement = clonedDoc.querySelector('[data-print-target="true"]') as HTMLElement
+          if (clonedElement) {
+             clonedElement.style.transform = 'none'
+             clonedElement.style.margin = '0'
+          }
+        }
+      })
+
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      })
+
+      const pdfWidth = pdf.internal.pageSize.getWidth()
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight)
+      pdf.save(`contract-${formData.template || 'draft'}.pdf`)
+    } catch (error) {
+      console.error('Error generating PDF:', error)
+      alert('Failed to generate PDF. Please try again.')
+    }
+  }
+
   const formatDate = (dateString: string) => {
     if (!dateString) return null
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -25,6 +67,14 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
       month: 'long',
       day: 'numeric'
     })
+  }
+
+  const getCurrencySymbol = (currency: string) => {
+    switch (currency) {
+      case 'GBP': return '£'
+      case 'NGN': return '₦'
+      default: return '$'
+    }
   }
 
   const Highlight = ({ value, placeholder, type = "text" }: { value: string, placeholder: string, type?: "text" | "number" }) => {
@@ -65,6 +115,7 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
         <button
           className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors"
           title="Download PDF"
+          onClick={handleDownloadPdf}
         >
           <Download className="w-4 h-4" />
         </button>
@@ -78,6 +129,8 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
 
       {/* Paper Document */}
       <div 
+        ref={printRef}
+        data-print-target="true"
         className="bg-white text-black w-full max-w-[800px] min-h-[1130px] p-16 rounded-sm relative origin-top transform transition-transform duration-200 shadow-lg"
         style={{ transform: `scale(${zoomLevel / 100})` }}
       >
@@ -202,7 +255,7 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
                   <br />
                   <span className="font-semibold">Structure:</span> <Highlight value={formData.paymentTerms} placeholder="Fixed Price / Hourly" />
                   <br />
-                  <span className="font-semibold">Rate/Amount:</span> <Highlight value={formData.amountRate ? `$${formData.amountRate}` : ""} placeholder="0.00" type="number" />
+                  <span className="font-semibold">Rate/Amount:</span> <Highlight value={formData.amountRate ? `${getCurrencySymbol(formData.currency)}${formData.amountRate}` : ""} placeholder="0.00" type="number" />
                 </p>
               </div>
 
@@ -266,7 +319,7 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
                 <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">1. Loan Amount & Interest</h3>
                 <p className="mb-4 leading-loose text-justify">
                   The Lender agrees to loan the Borrower the principal sum of
-                  <Highlight value={formData.loanAmount ? `$${formData.loanAmount}` : ""} placeholder="Enter Amount" />
+                  <Highlight value={formData.loanAmount ? `${getCurrencySymbol(formData.currency)}${formData.loanAmount}` : ""} placeholder="Enter Amount" />
                   (the "Loan"). The unpaid principal shall bear interest at the rate of
                   <Highlight value={formData.interestRate ? `${formData.interestRate}%` : ""} placeholder="0.0%" type="number" />
                   per annum.
