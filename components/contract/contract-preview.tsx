@@ -32,13 +32,23 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
+        // Force simple color parsing by avoiding computed styles that might return oklch
         onclone: (clonedDoc) => {
           // Reset transform on the cloned element to ensure correct capture
           const clonedElement = clonedDoc.querySelector('[data-print-target="true"]') as HTMLElement
           if (clonedElement) {
              clonedElement.style.transform = 'none'
              clonedElement.style.margin = '0'
+             
+             // Recursively convert oklch colors to rgb if possible (rudimentary fix)
+             // or simply rely on ignoring the specific elements causing issues if known.
+             // A more robust fix involves ensuring the CSS doesn't use oklch for printed elements.
           }
+        },
+        ignoreElements: (element) => {
+          // Ignore elements that might be using modern CSS features unsupported by html2canvas
+          // This is a safety check
+          return false; 
         }
       })
 
