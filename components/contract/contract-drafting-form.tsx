@@ -1,22 +1,7 @@
 "use client"
 
 import { Landmark, Shield, Briefcase, User, Building2, Calendar, MapPin, Sparkles, Save, Send, Handshake, Scale, Clock, Globe } from "lucide-react"
-
-const countries = [
-  "United States",
-  "United Kingdom",
-  "Canada",
-  "Nigeria",
-  "India",
-];
-
-const regions: Record<string, string[]> = {
-  "United States": ["California", "New York", "Delaware", "Texas", "Florida", "Illinois", "Washington"],
-  "United Kingdom": ["England", "Scotland", "Wales", "Northern Ireland"],
-  "Canada": ["Ontario", "Quebec", "British Columbia", "Alberta", "Manitoba"],
-  "Nigeria": ["Lagos", "Abuja", "Rivers", "Kano", "Ogun"],
-  "India": ["Maharashtra", "Karnataka", "Delhi", "Tamil Nadu", "Telangana"],
-};
+import { Country, State }  from 'country-state-city';
 
 interface ContractDraftingFormProps {
   formData: any
@@ -24,6 +9,9 @@ interface ContractDraftingFormProps {
 }
 
 export function ContractDraftingForm({ formData, onChange }: ContractDraftingFormProps) {
+  const allCountries = Country.getAllCountries();
+  const selectedCountry = allCountries.find(c => c.name === formData.country);
+  const countryStates = selectedCountry ? State.getStatesOfCountry(selectedCountry.isoCode) : [];
   return (
     <section className="w-full lg:w-[40%] xl:w-[35%] flex flex-col bg-white dark:bg-surface-dark border-r border-gray-200 dark:border-gray-800 z-10 shadow-sm overflow-y-auto">
       {/* Breadcrumbs & Heading */}
@@ -496,8 +484,8 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                   }}
                 >
                   <option value="">Select Country</option>
-                  {countries.map(country => (
-                    <option key={country} value={country}>{country}</option>
+                  {allCountries.map(country => (
+                    <option key={country.isoCode} value={country.name}>{country.name}</option>
                   ))}
                 </select>
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -522,8 +510,8 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                   disabled={!formData.country}
                 >
                   <option value="">Select State</option>
-                  {formData.country && regions[formData.country]?.map((region) => (
-                    <option key={region} value={region}>{region}</option>
+                  {countryStates.map((state) => (
+                    <option key={state.isoCode} value={state.name}>{state.name}</option>
                   ))}
                 </select>
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
