@@ -14,7 +14,8 @@ export default function ContractDraftingPage() {
     confidentialityTerm: "3 Years",
     returnInformation: "Destroy or Return",
     effectiveDate: new Date().toISOString().split('T')[0],
-    jurisdiction: "California",
+    country: "",
+    jurisdiction: "",
     // Service specific fields
     paymentTerms: "Fixed Price",
     amountRate: "",

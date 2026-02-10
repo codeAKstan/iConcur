@@ -87,6 +87,14 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
     }
   }
 
+  const getJurisdictionPrefix = (country: string) => {
+    switch (country) {
+      case 'United Kingdom': return 'laws of'
+      case 'Canada': return 'laws of the Province of'
+      default: return 'laws of the State of'
+    }
+  }
+
   const Highlight = ({ value, placeholder, type = "text" }: { value: string, placeholder: string, type?: "text" | "number" }) => {
     if (!value) {
       return (
@@ -242,7 +250,7 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
               <div>
                 <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">4. Governing Law</h3>
                 <p className="mb-4 leading-loose text-justify">
-                  This Agreement shall be governed by and construed in accordance with the laws of the State of
+                  This Agreement shall be governed by and construed in accordance with the {getJurisdictionPrefix(formData.country)}
                   <Highlight value={formData.jurisdiction} placeholder="Select Jurisdiction..." />.
                 </p>
               </div>
@@ -281,7 +289,7 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
               <div>
                 <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">4. Governing Law</h3>
                 <p className="mb-4 leading-loose text-justify">
-                  This Agreement shall be governed by and construed in accordance with the laws of the State of
+                  This Agreement shall be governed by and construed in accordance with the {getJurisdictionPrefix(formData.country)}
                   <Highlight value={formData.jurisdiction} placeholder="Select Jurisdiction..." />.
                 </p>
               </div>
@@ -318,7 +326,7 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
               <div>
                 <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">4. Governing Law</h3>
                 <p className="mb-4 leading-loose text-justify">
-                  This Agreement shall be governed by and construed in accordance with the laws of the State of
+                  This Agreement shall be governed by and construed in accordance with the {getJurisdictionPrefix(formData.country)}
                   <Highlight value={formData.jurisdiction} placeholder="Select Jurisdiction..." />.
                 </p>
               </div>
@@ -348,7 +356,7 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
               <div>
                 <h3 className="font-bold text-lg mb-4 border-b border-gray-200 pb-2">3. Governing Law</h3>
                 <p className="mb-4 leading-loose text-justify">
-                  This Agreement shall be governed by and construed in accordance with the laws of the State of
+                  This Agreement shall be governed by and construed in accordance with the {getJurisdictionPrefix(formData.country)}
                   <Highlight value={formData.jurisdiction} placeholder="Select Jurisdiction..." />.
                 </p>
               </div>

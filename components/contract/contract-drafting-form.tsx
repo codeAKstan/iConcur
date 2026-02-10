@@ -1,6 +1,22 @@
 "use client"
 
-import { Landmark, Shield, Briefcase, User, Building2, Calendar, MapPin, Sparkles, Save, Send, Handshake, Scale, Clock } from "lucide-react"
+import { Landmark, Shield, Briefcase, User, Building2, Calendar, MapPin, Sparkles, Save, Send, Handshake, Scale, Clock, Globe } from "lucide-react"
+
+const countries = [
+  "United States",
+  "United Kingdom",
+  "Canada",
+  "Nigeria",
+  "India",
+];
+
+const regions: Record<string, string[]> = {
+  "United States": ["California", "New York", "Delaware", "Texas", "Florida", "Illinois", "Washington"],
+  "United Kingdom": ["England", "Scotland", "Wales", "Northern Ireland"],
+  "Canada": ["Ontario", "Quebec", "British Columbia", "Alberta", "Manitoba"],
+  "Nigeria": ["Lagos", "Abuja", "Rivers", "Kano", "Ogun"],
+  "India": ["Maharashtra", "Karnataka", "Delhi", "Tamil Nadu", "Telangana"],
+};
 
 interface ContractDraftingFormProps {
   formData: any
@@ -463,7 +479,35 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                 </div>
               </div>
             )}
-            <div className="col-span-2">
+            <div className="col-span-1">
+              <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
+                Country
+              </label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Globe className="h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                </div>
+                <select 
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none shadow-sm cursor-pointer font-medium"
+                  value={formData.country}
+                  onChange={(e) => {
+                    onChange("country", e.target.value);
+                    onChange("jurisdiction", "");
+                  }}
+                >
+                  <option value="">Select Country</option>
+                  {countries.map(country => (
+                    <option key={country} value={country}>{country}</option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                  <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-1">
               <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">
                 Jurisdiction / State
               </label>
@@ -475,12 +519,12 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
                   className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none shadow-sm cursor-pointer font-medium"
                   value={formData.jurisdiction}
                   onChange={(e) => onChange("jurisdiction", e.target.value)}
+                  disabled={!formData.country}
                 >
                   <option value="">Select State</option>
-                  <option value="California">California</option>
-                  <option value="New York">New York</option>
-                  <option value="Delaware">Delaware</option>
-                  <option value="Texas">Texas</option>
+                  {formData.country && regions[formData.country]?.map((region) => (
+                    <option key={region} value={region}>{region}</option>
+                  ))}
                 </select>
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
