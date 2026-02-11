@@ -1,7 +1,7 @@
 "use client"
 
-import { Minus, Plus, Download, Printer } from "lucide-react"
-import { useState, useRef } from "react"
+import { Minus, Plus } from "lucide-react"
+import { useState } from "react"
 
 interface ContractPreviewProps {
   formData: any
@@ -9,7 +9,6 @@ interface ContractPreviewProps {
 
 export function ContractPreview({ formData }: ContractPreviewProps) {
   const [zoomLevel, setZoomLevel] = useState(100)
-  const printRef = useRef<HTMLDivElement>(null)
 
   const handleZoomIn = () => {
     setZoomLevel(prev => Math.min(prev + 10, 200))
@@ -17,57 +16,6 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
 
   const handleZoomOut = () => {
     setZoomLevel(prev => Math.max(prev - 10, 50))
-  }
-
-  const handleDownloadPdf = async () => {
-    if (!printRef.current) return
-
-    try {
-      const html2canvas = (await import('html2canvas')).default
-      const { jsPDF } = await import('jspdf')
-
-      // Capture the element with html2canvas
-      const canvas = await html2canvas(printRef.current, {
-        scale: 2, // Higher scale for better resolution
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#ffffff',
-        // Force simple color parsing by avoiding computed styles that might return oklch
-        onclone: (clonedDoc) => {
-          // Reset transform on the cloned element to ensure correct capture
-          const clonedElement = clonedDoc.querySelector('[data-print-target="true"]') as HTMLElement
-          if (clonedElement) {
-             clonedElement.style.transform = 'none'
-             clonedElement.style.margin = '0'
-             
-             // Recursively convert oklch colors to rgb if possible (rudimentary fix)
-             // or simply rely on ignoring the specific elements causing issues if known.
-             // A more robust fix involves ensuring the CSS doesn't use oklch for printed elements.
-          }
-        },
-        ignoreElements: (element) => {
-          // Ignore elements that might be using modern CSS features unsupported by html2canvas
-          // This is a safety check
-          return false; 
-        }
-      })
-
-      const imgData = canvas.toDataURL('image/png')
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
-      })
-
-      const pdfWidth = pdf.internal.pageSize.getWidth()
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width
-
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight)
-      pdf.save(`contract-${formData.template || 'draft'}.pdf`)
-    } catch (error) {
-      console.error('Error generating PDF:', error)
-      alert('Failed to generate PDF. Please try again.')
-    }
   }
 
   const formatDate = (dateString: string) => {
@@ -129,26 +77,10 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
         >
           <Plus className="w-4 h-4" />
         </button>
-        <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 mx-1"></div>
-        <button
-          className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors"
-          title="Download PDF"
-          onClick={handleDownloadPdf}
-        >
-          <Download className="w-4 h-4" />
-        </button>
-        <button
-          className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors"
-          title="Print"
-        >
-          <Printer className="w-4 h-4" />
-        </button>
       </div>
 
       {/* Paper Document */}
       <div 
-        ref={printRef}
-        data-print-target="true"
         className="bg-white text-black w-full max-w-[800px] min-h-[1130px] p-16 rounded-sm relative origin-top transform transition-transform duration-200 shadow-lg"
         style={{ transform: `scale(${zoomLevel / 100})` }}
       >
