@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { useUser } from "@/hooks/use-user"
-import { LogOut, LayoutDashboard, FileText, PenTool, BarChart, Settings } from "lucide-react"
+import { LogOut, LayoutDashboard, FileText, PenTool, BarChart, Settings, CreditCard } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
@@ -98,6 +98,18 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
         >
           <BarChart className="w-5 h-5" />
           <span>Analyze Contract</span>
+        </Link>
+        <Link
+          className={cn(
+            "group flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition-colors",
+            isActive("/billings")
+              ? "bg-primary/10 text-primary"
+              : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary"
+          )}
+          href="/billings"
+        >
+          <CreditCard className="w-5 h-5" />
+          <span>Billing</span>
         </Link>
         <Link
           className={cn(
