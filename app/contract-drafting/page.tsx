@@ -4,8 +4,12 @@ import { useState } from "react"
 import { ContractDraftingLayout } from "@/components/contract/contract-drafting-layout"
 import { ContractDraftingForm } from "@/components/contract/contract-drafting-form"
 import { ContractPreview } from "@/components/contract/contract-preview"
+import { SignatureModal } from "@/components/contract/signature-modal"
+import { useToast } from "@/hooks/use-toast"
 
 export default function ContractDraftingPage() {
+  const { toast } = useToast()
+  const [isSignatureModalOpen, setIsSignatureModalOpen] = useState(false)
   const [formData, setFormData] = useState({
     template: "Business Agreement",
     lenderName: "Alpha Corp",
@@ -38,10 +42,32 @@ export default function ContractDraftingPage() {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
+  const handleSendForSignature = () => {
+    setIsSignatureModalOpen(true)
+  }
+
+  const handleConfirmSignature = (signature: string) => {
+    // Here you would typically send the data to your API
+    console.log("Contract signed with:", signature)
+    
+    toast({
+      title: "Contract Sent Successfully!",
+      description: "Your signed contract has been sent to the parties for review.",
+    })
+  }
+
   return (
-    <ContractDraftingLayout
-      form={<ContractDraftingForm formData={formData} onChange={handleChange} />}
-      preview={<ContractPreview formData={formData} />}
-    />
+    <>
+      <ContractDraftingLayout
+        form={<ContractDraftingForm formData={formData} onChange={handleChange} onSendForSignature={handleSendForSignature} />}
+        preview={<ContractPreview formData={formData} />}
+      />
+      <SignatureModal 
+        isOpen={isSignatureModalOpen}
+        onClose={() => setIsSignatureModalOpen(false)}
+        onConfirm={handleConfirmSignature}
+        partyName={formData.lenderName || "Party A"}
+      />
+    </>
   )
 }

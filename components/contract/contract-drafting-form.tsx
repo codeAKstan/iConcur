@@ -6,9 +6,10 @@ import { Country, State }  from 'country-state-city';
 interface ContractDraftingFormProps {
   formData: any
   onChange: (field: string, value: string) => void
+  onSendForSignature: () => void
 }
 
-export function ContractDraftingForm({ formData, onChange }: ContractDraftingFormProps) {
+export function ContractDraftingForm({ formData, onChange, onSendForSignature }: ContractDraftingFormProps) {
   const allCountries = Country.getAllCountries();
   const selectedCountry = allCountries.find(c => c.name === formData.country);
   const countryStates = selectedCountry ? State.getStatesOfCountry(selectedCountry.isoCode) : [];
@@ -608,7 +609,10 @@ export function ContractDraftingForm({ formData, onChange }: ContractDraftingFor
           <Save className="w-4 h-4" />
           Save Draft
         </button>
-        <button className="flex-[1.5] h-12 flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-primary/25 transition-all hover:shadow-primary/40 transform active:scale-[0.98]">
+        <button 
+          onClick={onSendForSignature}
+          className="flex-[1.5] h-12 flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-primary/25 transition-all hover:shadow-primary/40 transform active:scale-[0.98]"
+        >
           <Send className="w-4 h-4" />
           Send for Signature
         </button>
