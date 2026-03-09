@@ -36,6 +36,7 @@ export default function ContractDraftingPage() {
     loanAmount: "",
     interestRate: "5.0",
     currency: "USD", // Default currency
+    signature: "",
   })
 
   const handleChange = (field: string, value: string) => {
@@ -47,12 +48,12 @@ export default function ContractDraftingPage() {
   }
 
   const handleConfirmSignature = (signature: string) => {
-    // Here you would typically send the data to your API
-    console.log("Contract signed with:", signature)
+    // Update form data with the signature
+    setFormData(prev => ({ ...prev, signature }))
     
     toast({
-      title: "Contract Sent Successfully!",
-      description: "Your signed contract has been sent to the parties for review.",
+      title: "Contract Signed Successfully!",
+      description: "Your signature has been added to the document.",
     })
   }
 

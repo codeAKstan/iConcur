@@ -296,7 +296,22 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
           )}
 
           <div className="mt-20 grid grid-cols-2 gap-12">
-            <div className="space-y-8">
+            <div className="space-y-4">
+              <div className="h-[60px] flex items-end justify-start px-2 relative">
+                {formData.signature ? (
+                  formData.signature.startsWith('data:image') ? (
+                    <img 
+                      src={formData.signature} 
+                      alt="Signature" 
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  ) : (
+                    <span className="text-3xl font-serif italic border-b border-black px-2 mb-[-1px]">
+                      {formData.signature}
+                    </span>
+                  )
+                ) : null}
+              </div>
               <div className="border-b border-black w-full"></div>
               <div>
                 <p className="font-bold text-sm uppercase">
@@ -315,7 +330,7 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
                 </p>
               </div>
             </div>
-            <div className="space-y-8">
+            <div className="space-y-4 pt-[60px]">
               <div className="border-b border-black w-full"></div>
               <div>
                 <p className="font-bold text-sm uppercase">
