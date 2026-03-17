@@ -43,7 +43,7 @@ export function ContractPreview({ formData }: ContractPreviewProps) {
     }
   }
 
-  const Highlight = ({ value, placeholder, type = "text" }: { value: string, placeholder: string, type?: "text" | "number" }) => {
+  const Highlight = ({ value, placeholder, type = "text" }: { value?: string | null, placeholder: string, type?: "text" | "number" }) => {
     if (!value) {
       return (
         <span className="bg-yellow-50 text-yellow-800 px-2 py-0.5 rounded border border-yellow-200 border-dashed font-medium italic inline-flex items-center gap-1 mx-1">
